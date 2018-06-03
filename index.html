@@ -359,78 +359,245 @@
 <p>正则表达式的作用是匹配文本，将一个模式（正则表达式）与一个文本串进行比较。。MySQL用WHERE子句对正则表达式提供了初步的支持，允许你指定正则表达式，过滤SELECT检索出的数据。</p>
 </blockquote>
 <h4 id="9-2-1-基本字符匹配"><a href="#9-2-1-基本字符匹配" class="headerlink" title="9.2.1 基本字符匹配"></a>9.2.1 基本字符匹配</h4><ul>
-<li><p>检索列prod_name包含文本1000的所有行</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'1000'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-</li>
+<li>检索列prod_name包含文本1000的所有行</li>
 </ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'1000'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
 <h4 id="9-2-2-进行OR匹配"><a href="#9-2-2-进行OR匹配" class="headerlink" title="9.2.2 进行OR匹配"></a>9.2.2 进行OR匹配</h4><blockquote>
 <p>为搜索两个串之一（或者为这个串，或者为另一个串），使用|;</p>
 <p>|为正则表达式的OR操作符;</p>
 <p>使用|从功能上类似于在SELECT语句中使用OR语句，多个OR条件可并入单个正则表达式。</p>
 </blockquote>
 <ul>
-<li><p>检索列prod_name包含1000或2000的所有行</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'1000|2000'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-</li>
+<li>检索列prod_name包含1000或2000的所有行</li>
 </ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'1000|2000'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
 <h4 id="9-2-3-匹配几个字符之一"><a href="#9-2-3-匹配几个字符之一" class="headerlink" title="9.2.3 匹配几个字符之一"></a>9.2.3 匹配几个字符之一</h4><blockquote>
 <p>可通过指定一组用[和]括起来的字符来完成匹配特定的字符</p>
 </blockquote>
 <ul>
-<li><p>[]是另一种形式的OR语句。正则表达式[123] Ton为[1|2|3] Ton的缩写，也可以使用后者</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'[123] ton'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<p>| prod_id       | prod_name     |<br>| ————- |:————-:|<br>| ANV02         | 1 ton anvil   |<br>| ANV03         | 2 ton anvil   |</p>
-</li>
-<li><p>除非把字符|括在一个集合中，否则它将应用于整个串</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'1|2|3 ton'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<p>| prod_name     |<br>| ————- |<br>| 1 ton anvil   |<br>| 2 ton anvil   |<br>| JetPack 1000  |<br>| JetPack 2000  |<br>| TNT (1 stick) |</p>
-</li>
-<li><p>字符集合也可以被否定，即，它们将匹配除指定字符外的任何东西。为否定一个字符集，在集合的开始处放置一个^即可。[^123]却匹配除这些字符外的任何东西。</p>
-<h4 id="9-2-4-匹配范围"><a href="#9-2-4-匹配范围" class="headerlink" title="9.2.4 匹配范围"></a>9.2.4 匹配范围</h4></li>
+<li>[]是另一种形式的OR语句。正则表达式[123] Ton为[1|2|3] Ton的缩写，也可以使用后者</li>
 </ul>
-<blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'[123] ton'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">prod_id</th>
+<th style="text-align:center">prod_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ANV02</td>
+<td style="text-align:center">1 ton anvil</td>
+</tr>
+<tr>
+<td style="text-align:center">ANV03</td>
+<td style="text-align:center">2 ton anvil</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>除非把字符|括在一个集合中，否则它将应用于整个串</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'1|2|3 ton'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>prod_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 ton anvil</td>
+</tr>
+<tr>
+<td>2 ton anvil</td>
+</tr>
+<tr>
+<td>JetPack 1000</td>
+</tr>
+<tr>
+<td>JetPack 2000</td>
+</tr>
+<tr>
+<td>TNT (1 stick)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>字符集合也可以被否定，即，它们将匹配除指定字符外的任何东西。为否定一个字符集，在集合的开始处放置一个^即可。[^123]却匹配除这些字符外的任何东西。</li>
+</ul>
+<h4 id="9-2-4-匹配范围"><a href="#9-2-4-匹配范围" class="headerlink" title="9.2.4 匹配范围"></a>9.2.4 匹配范围</h4><blockquote>
 <p>集合可用来定义要匹配的一个或多个字符。</p>
 <p>下面的集合将匹配数字0到9：[0123456789]，等同于[0-9]；[a-z]匹配任意字母字符。</p>
 <ul>
 <li>例子</li>
 </ul>
 </blockquote>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'[1-5] ton'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'[1-5] ton'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
 <h4 id="9-2-5-匹配特殊字符"><a href="#9-2-5-匹配特殊字符" class="headerlink" title="9.2.5 匹配特殊字符"></a>9.2.5 匹配特殊字符</h4><blockquote>
 <p>正则表达式语言由具有特定含义的特殊字符构成。匹配这些字符.，[]，|和-应该怎么办</p>
 <p>为了匹配特殊字符，必须用\为前导。\-表示查找-，\.表示查找.</p>
 <p>正则表达式内具有特殊意义的所有字符都必须以这种方式转义。这包括.、|、[]以及迄今为止使用过的其他特殊字符。</p>
 </blockquote>
 <ul>
-<li><p>找出包含.字符的值</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> vend_name</span><br><span class="line"><span class="keyword">FROM</span> vendors</span><br><span class="line"><span class="keyword">WHERE</span> vend_name REGEXP <span class="string">'.'</span>;</span><br></pre></td></tr></table></figure>
-<p>| vend_name     |<br>| ————- |<br>| Anvils R Us   |<br>| LT Supplies   |<br>| ACME          |<br>| Furball Inc.  |<br>| Jet Set       |<br>| Jouets Et Ours|</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> vend_name</span><br><span class="line"><span class="keyword">FROM</span> vendors</span><br><span class="line"><span class="keyword">WHERE</span> vend_name REGEXP <span class="string">'\\.'</span>;</span><br></pre></td></tr></table></figure>
-<p>| vend_name     |<br>| ————- |<br>| Furball Inc.  |</p>
-<h4 id="9-2-6-匹配字符类"><a href="#9-2-6-匹配字符类" class="headerlink" title="9.2.6 匹配字符类"></a>9.2.6 匹配字符类</h4></li>
+<li>找出包含.字符的值</li>
 </ul>
-<blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> vend_name</span><br><span class="line"><span class="keyword">FROM</span> vendors</span><br><span class="line"><span class="keyword">WHERE</span> vend_name REGEXP <span class="string">'.'</span>;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>vend_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anvils R Us</td>
+</tr>
+<tr>
+<td>LT Supplies</td>
+</tr>
+<tr>
+<td>ACME</td>
+</tr>
+<tr>
+<td>Furball Inc.</td>
+</tr>
+<tr>
+<td>Jet Set</td>
+</tr>
+<tr>
+<td>Jouets Et Ours</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> vend_name</span><br><span class="line"><span class="keyword">FROM</span> vendors</span><br><span class="line"><span class="keyword">WHERE</span> vend_name REGEXP <span class="string">'\\.'</span>;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>vend_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Furball Inc.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="9-2-6-匹配字符类"><a href="#9-2-6-匹配字符类" class="headerlink" title="9.2.6 匹配字符类"></a>9.2.6 匹配字符类</h4><blockquote>
 <p>预定义的字符集，称为字符类（character class）。(见MySQL必知必会p58)</p>
 </blockquote>
 <h4 id="9-2-7-匹配多个实例"><a href="#9-2-7-匹配多个实例" class="headerlink" title="9.2.7 匹配多个实例"></a>9.2.7 匹配多个实例</h4><ul>
-<li><p>表9-3 重复元字符<br>| 元字符        | 说明          |<br>| ————- |:————-:|<br>| *         | 0个或多个匹配 |<br>| +         | 1个或多个匹配(等于{1,}) |<br>| ?         | 0个或1个匹配(等于{0,1}) |<br>| {n}       | 指定数目的匹配 |<br>| {n,}      | 不少于指定数目的匹配 |<br>| {n,m}      | 匹配数目的范围(m不超过255) |</p>
-</li>
-<li><p>[0-9]匹配任意数字（这个例子中为1和5），sticks?匹配stick和sticks（s后的?使s可选，因为?匹配它前面的任何字符的0次或1次出现），\)匹配)。</p>
+<li>表9-3 重复元字符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">元字符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">0个或多个匹配</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:center">1个或多个匹配(等于{1,})</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:center">0个或1个匹配(等于{0,1})</td>
+</tr>
+<tr>
+<td style="text-align:center">{n}</td>
+<td style="text-align:center">指定数目的匹配</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,}</td>
+<td style="text-align:center">不少于指定数目的匹配</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,m}</td>
+<td style="text-align:center">匹配数目的范围(m不超过255)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>[0-9]匹配任意数字（这个例子中为1和5），sticks?匹配stick和sticks（s后的?使s可选，因为?匹配它前面的任何字符的0次或1次出现），\)匹配)。</li>
+</ul>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'\\([1-5] sticks?\\)'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<p>| prod_name     |<br>| ————- |<br>| TNT (1 stick) |<br>| TNT (5 sticks)|</p>
-</li>
-<li><p>[:digit:]匹配任意数字，{4}确切地要求它前面的字符（任意数字）出现4次，所以[[:digit:]]{4}匹配连在一起的任意4位数字。</p>
+<table>
+<thead>
+<tr>
+<th>prod_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TNT (1 stick)</td>
+</tr>
+<tr>
+<td>TNT (5 sticks)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>[:digit:]匹配任意数字，{4}确切地要求它前面的字符（任意数字）出现4次，所以[[:digit:]]{4}匹配连在一起的任意4位数字。</li>
+</ul>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'[[:digit:]]&#123;4&#125;'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
 <h4 id="9-2-8-定位符"><a href="#9-2-8-定位符" class="headerlink" title="9.2.8 定位符"></a>9.2.8 定位符</h4><ul>
-<li><p>表9-4 定位元字符<br>| 元字符        | 说明          |<br>| ————- |:————-:|<br>| ^             | 文本的开始    |<br>| $             | 文本的结束    |<br>| [[:&lt;:]]       | 词的开始      |<br>| [[:&gt;:]]       | 词的结束      |</p>
-</li>
-<li><p>找出以一个数（包括以小数点开始的数）开始的所有产品</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'^[0-9\\.]'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<p>| prod_name     |<br>| ————- |<br>| .5 ton anvil  |<br>| 1 ton anvil   |<br>| 2 ton anvil   |</p>
-</li>
+<li>表9-4 定位元字符</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">元字符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:center">文本的开始</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td style="text-align:center">文本的结束</td>
+</tr>
+<tr>
+<td style="text-align:center">[[:&lt;:]]</td>
+<td style="text-align:center">词的开始</td>
+</tr>
+<tr>
+<td style="text-align:center">[[:&gt;:]]</td>
+<td style="text-align:center">词的结束</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>找出以一个数（包括以小数点开始的数）开始的所有产品</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'^[0-9\\.]'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>prod_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.5 ton anvil</td>
+</tr>
+<tr>
+<td>1 ton anvil</td>
+</tr>
+<tr>
+<td>2 ton anvil</td>
+</tr>
+</tbody>
+</table>
 
           
         
@@ -577,16 +744,17 @@
 <p>%代表搜索模式中给定位置的0个、1个或多个字符。</p>
 </blockquote>
 <ul>
-<li><p>找出所有以词jet起头的产品</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'jet%'</span>;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>找出所有以词包含文本anvil的产品</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'%anvil%'</span>;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>找出以s起头以e结尾的所有产品</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'s%e'</span>;</span><br></pre></td></tr></table></figure>
-</li>
+<li>找出所有以词jet起头的产品</li>
 </ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'jet%'</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>找出所有以词包含文本anvil的产品</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'%anvil%'</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>找出以s起头以e结尾的所有产品</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'s%e'</span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>1.注意尾空格 在保存词anvil 时， 如果它后面有一个或多个空格， 则子句WHERE prod_name LIKE ‘%anvil’将不会匹配它们;</p>
 <p>2.注意NULL 虽然似乎%通配符可以匹配任何东西，但有一个例外，即NULL。</p>
@@ -595,15 +763,53 @@
 <p>另一个有用的通配符是下划线（_）。下划线的用途与%一样，但下划线只匹配单个字符而不是多个字符。</p>
 </blockquote>
 <ul>
-<li><p>以下划线(_)通配符检索数据</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'_ ton anvil'</span>;</span><br></pre></td></tr></table></figure>
-<p>| prod_id       | prod_name     |<br>| ————- |:————-:|<br>| ANV02         | 1 ton anvil   |<br>| ANV03         | 2 ton anvil   |</p>
-</li>
-<li><p>以百分号(%)通配符检索数据</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'% ton anvil'</span>;</span><br></pre></td></tr></table></figure>
-<p>| prod_id       | prod_name     |<br>| ————- |:————-:|<br>| ANV01         | .5 ton anvil  |<br>| ANV02         | 1 ton anvil   |<br>| ANV03         | 2 ton anvil   |</p>
-</li>
+<li>以下划线(_)通配符检索数据</li>
 </ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'_ ton anvil'</span>;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th style="text-align:center">prod_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ANV02</td>
+<td style="text-align:center">1 ton anvil</td>
+</tr>
+<tr>
+<td>ANV03</td>
+<td style="text-align:center">2 ton anvil</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>以百分号(%)通配符检索数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'% ton anvil'</span>;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th style="text-align:center">prod_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ANV01</td>
+<td style="text-align:center">.5 ton anvil</td>
+</tr>
+<tr>
+<td>ANV02</td>
+<td style="text-align:center">1 ton anvil</td>
+</tr>
+<tr>
+<td>ANV03</td>
+<td style="text-align:center">2 ton anvil</td>
+</tr>
+</tbody>
+</table>
 <h3 id="使用通配符的技巧"><a href="#使用通配符的技巧" class="headerlink" title="使用通配符的技巧"></a>使用通配符的技巧</h3><blockquote>
 <p>MySQL的通配符很有用。但这种功能是有代价的：通配符搜索的处理一般要比前面讨论的其他搜索所花时间更长。</p>
 </blockquote>

@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="8.1 LIKE操作符8.1.1 百分号(%)通配符 最常使用的通配符是百分号（%）。在搜索串中，%表示任何字符出现任意次数。 %代表搜索模式中给定位置的0个、1个或多个字符。   找出所有以词jet起头的产品 123SELECT prod_id, prod_nameFROM productsWHERE prod_name LIKE &apos;jet%&apos;;  找出所有以词包含文本anvil的产品 123S">
+<meta name="description" content="8.1 LIKE操作符8.1.1 百分号(%)通配符 最常使用的通配符是百分号（%）。在搜索串中，%表示任何字符出现任意次数。 %代表搜索模式中给定位置的0个、1个或多个字符。   找出所有以词jet起头的产品  123SELECT prod_id, prod_nameFROM productsWHERE prod_name LIKE &apos;jet%&apos;;  找出所有以词包含文本anvil的产品  12">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第八章-用通配符进行过滤">
 <meta property="og:url" content="https://lengmuyun.github.io/2018/05/22/第八章-用通配符进行过滤/index.html">
 <meta property="og:site_name" content="lengmuyun&#39;s Blog">
-<meta property="og:description" content="8.1 LIKE操作符8.1.1 百分号(%)通配符 最常使用的通配符是百分号（%）。在搜索串中，%表示任何字符出现任意次数。 %代表搜索模式中给定位置的0个、1个或多个字符。   找出所有以词jet起头的产品 123SELECT prod_id, prod_nameFROM productsWHERE prod_name LIKE &apos;jet%&apos;;  找出所有以词包含文本anvil的产品 123S">
+<meta property="og:description" content="8.1 LIKE操作符8.1.1 百分号(%)通配符 最常使用的通配符是百分号（%）。在搜索串中，%表示任何字符出现任意次数。 %代表搜索模式中给定位置的0个、1个或多个字符。   找出所有以词jet起头的产品  123SELECT prod_id, prod_nameFROM productsWHERE prod_name LIKE &apos;jet%&apos;;  找出所有以词包含文本anvil的产品  12">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-21T23:42:06.509Z">
+<meta property="og:updated_time" content="2018-05-31T15:03:35.207Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第八章-用通配符进行过滤">
-<meta name="twitter:description" content="8.1 LIKE操作符8.1.1 百分号(%)通配符 最常使用的通配符是百分号（%）。在搜索串中，%表示任何字符出现任意次数。 %代表搜索模式中给定位置的0个、1个或多个字符。   找出所有以词jet起头的产品 123SELECT prod_id, prod_nameFROM productsWHERE prod_name LIKE &apos;jet%&apos;;  找出所有以词包含文本anvil的产品 123S">
+<meta name="twitter:description" content="8.1 LIKE操作符8.1.1 百分号(%)通配符 最常使用的通配符是百分号（%）。在搜索串中，%表示任何字符出现任意次数。 %代表搜索模式中给定位置的0个、1个或多个字符。   找出所有以词jet起头的产品  123SELECT prod_id, prod_nameFROM productsWHERE prod_name LIKE &apos;jet%&apos;;  找出所有以词包含文本anvil的产品  12">
 
 
 
@@ -356,16 +356,17 @@
 <p>%代表搜索模式中给定位置的0个、1个或多个字符。</p>
 </blockquote>
 <ul>
-<li><p>找出所有以词jet起头的产品</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'jet%'</span>;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>找出所有以词包含文本anvil的产品</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'%anvil%'</span>;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>找出以s起头以e结尾的所有产品</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'s%e'</span>;</span><br></pre></td></tr></table></figure>
-</li>
+<li>找出所有以词jet起头的产品</li>
 </ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'jet%'</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>找出所有以词包含文本anvil的产品</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'%anvil%'</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>找出以s起头以e结尾的所有产品</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'s%e'</span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>1.注意尾空格 在保存词anvil 时， 如果它后面有一个或多个空格， 则子句WHERE prod_name LIKE ‘%anvil’将不会匹配它们;</p>
 <p>2.注意NULL 虽然似乎%通配符可以匹配任何东西，但有一个例外，即NULL。</p>
@@ -374,15 +375,53 @@
 <p>另一个有用的通配符是下划线（_）。下划线的用途与%一样，但下划线只匹配单个字符而不是多个字符。</p>
 </blockquote>
 <ul>
-<li><p>以下划线(_)通配符检索数据</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'_ ton anvil'</span>;</span><br></pre></td></tr></table></figure>
-<p>| prod_id       | prod_name     |<br>| ————- |:————-:|<br>| ANV02         | 1 ton anvil   |<br>| ANV03         | 2 ton anvil   |</p>
-</li>
-<li><p>以百分号(%)通配符检索数据</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'% ton anvil'</span>;</span><br></pre></td></tr></table></figure>
-<p>| prod_id       | prod_name     |<br>| ————- |:————-:|<br>| ANV01         | .5 ton anvil  |<br>| ANV02         | 1 ton anvil   |<br>| ANV03         | 2 ton anvil   |</p>
-</li>
+<li>以下划线(_)通配符检索数据</li>
 </ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'_ ton anvil'</span>;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th style="text-align:center">prod_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ANV02</td>
+<td style="text-align:center">1 ton anvil</td>
+</tr>
+<tr>
+<td>ANV03</td>
+<td style="text-align:center">2 ton anvil</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>以百分号(%)通配符检索数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'% ton anvil'</span>;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th style="text-align:center">prod_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ANV01</td>
+<td style="text-align:center">.5 ton anvil</td>
+</tr>
+<tr>
+<td>ANV02</td>
+<td style="text-align:center">1 ton anvil</td>
+</tr>
+<tr>
+<td>ANV03</td>
+<td style="text-align:center">2 ton anvil</td>
+</tr>
+</tbody>
+</table>
 <h3 id="使用通配符的技巧"><a href="#使用通配符的技巧" class="headerlink" title="使用通配符的技巧"></a>使用通配符的技巧</h3><blockquote>
 <p>MySQL的通配符很有用。但这种功能是有代价的：通配符搜索的处理一般要比前面讨论的其他搜索所花时间更长。</p>
 </blockquote>
