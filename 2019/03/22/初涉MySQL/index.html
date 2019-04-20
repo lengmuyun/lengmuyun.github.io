@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>Java内存区域和内存溢出异常 | lengmuyun&#39;s Blog</title>
+  <title>初涉MySQL | lengmuyun&#39;s Blog</title>
   
   
 
@@ -128,20 +128,20 @@
     <div class="l_body">
     <div class='container clearfix'>
         <div class='l_main'>
-            <article id="post" class="post white-box article-type-post" itemscope="" itemprop="blogPost">
+            <article id="第一章" class="post white-box article-type-第一章" itemscope="" itemprop="blogPost">
   
 <section class="meta">
   
   <div class="meta" id="header-meta">
     
       
-          <h1 class="title">Java内存区域和内存溢出异常</h1>
+          <h1 class="title">初涉MySQL</h1>
       
     
 
     
       <time class="metatag time">
-        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2018-07-01
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-03-22
       </time>
     
 
@@ -149,7 +149,7 @@
       
     
     <div class="metatag cats">
-        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/深入理解Java虚拟机笔记/">深入理解Java虚拟机笔记</a>
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/MySQL笔记/">MySQL笔记</a>
     </div>
 
 
@@ -170,43 +170,155 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <h3 id="2-2-运行时数据区域"><a href="#2-2-运行时数据区域" class="headerlink" title="2.2 运行时数据区域"></a>2.2 运行时数据区域</h3><blockquote>
-<p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的区域。这些区域都有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线程的启动和结束而建立和销毁。</p>
+        <h3 id="1-1-MySQL概述"><a href="#1-1-MySQL概述" class="headerlink" title="1-1 MySQL概述"></a>1-1 MySQL概述</h3><blockquote>
+<p>MySQL由瑞典MySQL AB公司开发，目前属于Oracle公司。</p>
+<p>MySQL是一个开源的关系型数据库管理系统。</p>
+<p>MySQL分为社区版和企业版。</p>
 </blockquote>
-<p><img src="http://www.2cto.com/uploadfile/Collfiles/20161103/201611030932231070.jpg" alt="image"></p>
-<h4 id="2-2-1-程序计数器"><a href="#2-2-1-程序计数器" class="headerlink" title="2.2.1 程序计数器"></a>2.2.1 程序计数器</h4><blockquote>
-<p>程序计数器(Program Counter Register)是一块较小的内存空间，它可以看做是当前线程所执行的字节码的行号指示器。</p>
-<p>在虚拟机的概念模型里(仅是概念模型，各种虚拟机的可能会通过一些更高效的方式去实现)，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
+<h3 id="1-3-启动与停止MySQL服务"><a href="#1-3-启动与停止MySQL服务" class="headerlink" title="1-3 启动与停止MySQL服务"></a>1-3 启动与停止MySQL服务</h3><ul>
+<li>启动MySQL服务</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net <span class="keyword">start</span> MySQL</span><br></pre></td></tr></table></figure>
+<ul>
+<li>关闭MySQL服务</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net <span class="keyword">stop</span> MySQL</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-MySQL登陆与退出"><a href="#1-4-MySQL登陆与退出" class="headerlink" title="1-4 MySQL登陆与退出"></a>1-4 MySQL登陆与退出</h3><ul>
+<li>MySQL登陆</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql 参数</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-D, –database=name</td>
+<td style="text-align:center">打开指定数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">–delimiter=name</td>
+<td style="text-align:center">指定分隔符</td>
+</tr>
+<tr>
+<td style="text-align:center">-h, –host=name</td>
+<td style="text-align:center">服务器名称</td>
+</tr>
+<tr>
+<td style="text-align:center">-p, –password[=name]</td>
+<td style="text-align:center">密码</td>
+</tr>
+<tr>
+<td style="text-align:center">-P, –port=#</td>
+<td style="text-align:center">端口号</td>
+</tr>
+<tr>
+<td style="text-align:center">–prompt=name</td>
+<td style="text-align:center">设置提示符</td>
+</tr>
+<tr>
+<td style="text-align:center">-u, –user=name</td>
+<td style="text-align:center">用户名</td>
+</tr>
+<tr>
+<td style="text-align:center">-V, –version</td>
+<td style="text-align:center">输出版本信息并且退出</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>MySQL退出</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">exit;</span><br><span class="line">quit;</span><br><span class="line">\q;</span><br></pre></td></tr></table></figure>
+<h3 id="1-5-修改MySQL提示符"><a href="#1-5-修改MySQL提示符" class="headerlink" title="1-5 修改MySQL提示符"></a>1-5 修改MySQL提示符</h3><ul>
+<li><p>连接客户端时通过参数指定</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -proot <span class="comment">--prompt 提示符</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>连接上客户端后，通过prompt命令修改</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt 提示符</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">\D</td>
+<td style="text-align:center">完整的日期</td>
+</tr>
+<tr>
+<td style="text-align:center">\d</td>
+<td style="text-align:center">当前数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">\h</td>
+<td style="text-align:center">服务器名称</td>
+</tr>
+<tr>
+<td style="text-align:center">\u</td>
+<td style="text-align:center">当前用户</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-6-MySQL常用命令以及语法规范"><a href="#1-6-MySQL常用命令以及语法规范" class="headerlink" title="1-6 MySQL常用命令以及语法规范"></a>1-6 MySQL常用命令以及语法规范</h3><ul>
+<li>显示当前服务器版本</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">VERSION</span>();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>显示当前日期时间</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">NOW</span>();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>显示当前用户</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">USER</span>();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>MySQL语句的规范</li>
+</ul>
+<blockquote>
+<p>关键字与函数名称全部大写<br>数据库名称，表名称，字段名称全部小写<br>SQL语句必须以分号结尾</p>
 </blockquote>
-<h4 id="2-2-2-Java虚拟机栈"><a href="#2-2-2-Java虚拟机栈" class="headerlink" title="2.2.2 Java虚拟机栈"></a>2.2.2 Java虚拟机栈</h4><blockquote>
-<p>虚拟机栈描述的是Java方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧(Stack Frame)用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
-<p>局部变量表存放了编译期可知的各种基本数据类型(boolean，byte，char，short，int，float，long，double)、对象引用(reference类型，它不等同于对象本身，可能是一条指向对象起始地址的引用指针，也可能是指向一个代表对象的句柄或其他与此对象相关的位置)和returnAddress类型(指向了一条字节码指令的地址)。</p>
-</blockquote>
-<h4 id="2-2-3-本地方法栈"><a href="#2-2-3-本地方法栈" class="headerlink" title="2.2.3 本地方法栈"></a>2.2.3 本地方法栈</h4><blockquote>
-<p>本地方法栈(Native Method Stack)与虚拟机栈所发挥的作用是非常相似的，他们之间的区别不过是虚拟机栈是为虚拟机执行Java方法(也就是字节码)服务，而本地方法栈则为虚拟机使用到的Native方法服务。</p>
-</blockquote>
-<h4 id="2-2-4-Java堆"><a href="#2-2-4-Java堆" class="headerlink" title="2.2.4 Java堆"></a>2.2.4 Java堆</h4><blockquote>
-<p>所有的对象实例以及数组都要在堆上分配，但是随着JIT编译器的发展与逃逸分析技术逐渐成熟，栈上分配、标量替换优化技术将会导致一些微妙的变化发生，所有的对象都分配在堆上也渐渐变得不是那么“绝对”了。</p>
-<p>Java堆还可以细分为：新生代和老年代；再细致一点的有：Eden空间、From Survivor空间、To Survivor空间等。</p>
-</blockquote>
-<h4 id="2-2-5-方法区"><a href="#2-2-5-方法区" class="headerlink" title="2.2.5 方法区"></a>2.2.5 方法区</h4><blockquote>
-<p>方法区(Method Area)与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。</p>
-</blockquote>
-<h4 id="2-2-6-运行时常量池"><a href="#2-2-6-运行时常量池" class="headerlink" title="2.2.6 运行时常量池"></a>2.2.6 运行时常量池</h4><blockquote>
-<p>运行时常量池(Runtime Constant Pool)是方法区的一部分。Class文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池(Constant Pool Table)，用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
-</blockquote>
+<h3 id="1-7-操作数据库"><a href="#1-7-操作数据库" class="headerlink" title="1-7 操作数据库"></a>1-7 操作数据库</h3><ul>
+<li>创建数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> &#123;<span class="keyword">DATABASE</span> | <span class="keyword">SCHEMA</span>&#125; [<span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span>] db_name [<span class="keyword">DEFAULT</span>] <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> [=] charset_name</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看数据库列表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> &#123;<span class="keyword">DATABASES</span> | SCHEMAS&#125; [<span class="keyword">LIKE</span> <span class="string">'pattern'</span> | <span class="keyword">WHERE</span> expr]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看警告</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">WARNINGS</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看建数据库语句</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> db_name;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> &#123;<span class="keyword">DATABASE</span> | <span class="keyword">SCHEMA</span>&#125; [db_name]</span><br><span class="line">[<span class="keyword">DEFAULT</span>] <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> [=] charset_name;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> &#123;<span class="keyword">DATABASE</span> | <span class="keyword">SCHEMA</span>&#125; [<span class="keyword">IF</span> <span class="keyword">EXISTS</span>] db_name；</span><br></pre></td></tr></table></figure>
+<ul>
+<li>打开数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> db_name;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看打开的数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DATABASE</span>();</span><br></pre></td></tr></table></figure>
 
       </div>
-        
-          <section class="meta" id="footer-meta">
-            
-              <time class="metatag time" itemprop="dateUpdated" datetime="2018-07-02T12:46:16+08:00" content="2018-07-02"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
-                &nbsp;2018-07-02
-              </time>
-            
-            
-            
-          </section>
         
 
         
@@ -216,9 +328,9 @@
                         <span class="art-item-left">
                             <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
                             <h4>
-                                <a href="/2019/01/06/TCP三次握手四次挥手/" rel="prev" title="TCP三次握手四次挥手">
+                                <a href="/2019/03/23/MySQL数据类型/" rel="prev" title="MySQL数据类型">
                                   
-                                      TCP三次握手四次挥手
+                                      MySQL数据类型
                                   
                                 </a>
                             </h4>
@@ -231,9 +343,9 @@
                         <span class="art-item-right" aria-hidden="true">
                             <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/2018/05/22/第九章-用正则表达式进行搜索/" rel="prev" title="第九章-用正则表达式进行搜索">
+                                <a href="/2019/01/06/TCP三次握手四次挥手/" rel="prev" title="TCP三次握手四次挥手">
                                     
-                                        第九章-用正则表达式进行搜索
+                                        TCP三次握手四次挥手
                                     
                                 </a>
                             </h4>
@@ -257,39 +369,11 @@
 
 
 
-  <article class="post white-box comments">
-    <section class="article typo">
-
-      
-        
-
-    <div class="recommended_posts">
-        <h4><i class="fas fa-bookmark fa-fw" aria-hidden="true"></i>&nbsp;Related Posts</h4>
-        <ul>
-            
-                <li><a href="https://lengmuyun.github.io/2019/03/22/初涉MySQL/">初涉MySQL</a></li>
-            
-                <li><a href="https://lengmuyun.github.io/2019/01/06/TCP三次握手四次挥手/">TCP三次握手四次挥手</a></li>
-            
-                <li><a href="https://lengmuyun.github.io/2018/05/22/第九章-用正则表达式进行搜索/">第九章-用正则表达式进行搜索</a></li>
-            
-                <li><a href="https://lengmuyun.github.io/2018/05/22/第八章-用通配符进行过滤/">第八章-用通配符进行过滤</a></li>
-            
-        </ul>
-    </div>
-
-
-      
-
-      
-    </section>
-  </article>
-
 
 
 <script>
     window.subData = {
-        title: 'Java内存区域和内存溢出异常',
+        title: '初涉MySQL',
         tools: true
     }
 </script>
@@ -453,20 +537,6 @@
       
       
         
-  <section class="toc-wrapper">
-    
-<header class="pure">
-  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Table of Contents</div>
-  
-    <div class="wrapper"><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
-  
-</header>
-
-    <div class="content pure">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-运行时数据区域"><span class="toc-text">2.2 运行时数据区域</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-程序计数器"><span class="toc-text">2.2.1 程序计数器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-Java虚拟机栈"><span class="toc-text">2.2.2 Java虚拟机栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-本地方法栈"><span class="toc-text">2.2.3 本地方法栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-Java堆"><span class="toc-text">2.2.4 Java堆</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-方法区"><span class="toc-text">2.2.5 方法区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-6-运行时常量池"><span class="toc-text">2.2.6 运行时常量池</span></a></li></ol></li></ol>
-    </div>
-  </section>
-
 
       
     

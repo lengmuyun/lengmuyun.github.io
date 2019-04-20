@@ -143,7 +143,858 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
+    
+      
+        <div class="post-wrapper">
+          <article class="post reveal ">
+    
+<section class="meta">
+  
+  <div class="meta" id="header-meta">
+    
+      <h2 class="title">
+          <a href="/2019/04/20/CentOS7安装JDK8/">
+              
+                  CentOS7安装JDK8
+              
+          </a>
+      </h2>
+    
+
+    
+      <time class="metatag time">
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-04-20
+      </time>
+    
+
+    
+      
+    
+    <div class="metatag cats">
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/CentOS/">CentOS</a>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </div>
+</section>
+
+    <section class="article typo">
+        <h3 id="1-下载JDK"><a href="#1-下载JDK" class="headerlink" title="1.下载JDK"></a>1.下载JDK</h3><p>去<a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">Oracle官网</a>下载JDK8，根据CentOS的版本下载对应的32位或64位安装包。</p>
+<ul>
+<li>查看CentOS是32位还是64位可以用以下命令（如果有x86_64就是64位的，没有就是32位的；后面是X686或X86_64则内核是64位的，i686或i386则内核是32位的）</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -a <span class="comment"># 用于打印当前系统相关信息（内核版本号、硬件架构、主机名称和操作系统类型等）</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>在centos系统中执行uname -a指令，系统为64位，下载文件jdk-8u211-linux-x64.tar.gz</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/83c51503ly1g28vz7ar37j20mz01h742.jpg" alt="image"></p>
+<h3 id="2-传输文件"><a href="#2-传输文件" class="headerlink" title="2.传输文件"></a>2.传输文件</h3><ul>
+<li><p>2.1 在/usr/local/下建立java文件夹，使用WinSCP上传jdk至java文件夹里面</p>
+</li>
+<li><p>2.2 解压文件</p>
+</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf jdk-<span class="number">8</span>u211-linux-x64.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="3-配置环境变量"><a href="#3-配置环境变量" class="headerlink" title="3.配置环境变量"></a>3.配置环境变量</h3><ul>
+<li>3.1 修改/etc/profile文件</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3.2 在文件末尾追加以下内容</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置JAVA_HOME环境变量，供Tomcat等软件使用</span></span><br><span class="line">export JAVA_HOME=/usr/local/java/jdk1.<span class="number">8.0</span>_211</span><br><span class="line"><span class="comment"># 在PATH路径上追加$JAVA_HOME/bin目录</span></span><br><span class="line">export PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="comment"># 配置CLASSPATH，tools.jar用于编译，dt.jar是Swing需要用到的</span></span><br><span class="line"><span class="comment"># 如果CLASSPATH中不包括当前路径.，JRE就不会在当前路径下搜索Java类</span></span><br><span class="line">export CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3.3 使文件修改生效</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># source命令也称为“点命令”，也就是一个点符号（.）,是bash的内部命令。 source命令通常用于重新执行刚修改的初始化文件，使之立即生效，而不必注销并重新登录。</span></span><br><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+<h3 id="4-查看安装jdk是否成功"><a href="#4-查看安装jdk是否成功" class="headerlink" title="4.查看安装jdk是否成功"></a>4.查看安装jdk是否成功</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+<p>参考链接:</p>
+<p><a href="https://segmentfault.com/a/1190000012893316" target="_blank" rel="noopener">centos7.4安装jdk1.8及tomcat8.5</a></p>
+<p><a href="https://juejin.im/entry/57df5deca0bb9f0058a4c397" target="_blank" rel="noopener">Java 环境变量你真的明白吗？</a></p>
+
+        
+
+        
+    </section>
+</article>
+
+        </div>
+      
+    
+      
+        <div class="post-wrapper">
+          <article class="post reveal ">
+    
+<section class="meta">
+  
+  <div class="meta" id="header-meta">
+    
+      <h2 class="title">
+          <a href="/2019/03/30/MySQL操作数据表的记录/">
+              
+                  MySQL操作数据表的记录
+              
+          </a>
+      </h2>
+    
+
+    
+      <time class="metatag time">
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-03-30
+      </time>
+    
+
+    
+      
+    
+    <div class="metatag cats">
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/MySQL笔记/">MySQL笔记</a>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </div>
+</section>
+
+    <section class="article typo">
+        <blockquote>
+<p>INSERT</p>
+</blockquote>
+<ul>
+<li>标准插入语法</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> [<span class="keyword">INTO</span>] tbl_name [(col_name,...)] &#123;<span class="keyword">VALUES</span>|<span class="keyword">VALUE</span>&#125; (&#123;expr|<span class="keyword">DEFAULT</span>&#125;,...),(...),...</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以使用子查询，但是不能插入多条记录</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> [<span class="keyword">INTO</span>] tbl_name <span class="keyword">SET</span> col_name=&#123;expr|<span class="keyword">DEFAULT</span>&#125;,...</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以将查询结果插入到指定数据表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> [<span class="keyword">INTO</span>] tbl_name [(col_name,...)] <span class="keyword">SELECT</span> ...</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>UPDATE</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> [<span class="keyword">LOW_PRIORITY</span>] [<span class="keyword">IGNORE</span>] table_reference <span class="keyword">SET</span> col_name1=&#123;expr1|<span class="keyword">DEFAULT</span>&#125; [,col_name2=&#123;expr2|<span class="keyword">DEFAULT</span>&#125;] ... [<span class="keyword">WHERE</span> where_condition]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>DELETE</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DELETE FROM tbl_name [WHERE where_condition]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>SELECT</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT select_expr [,select_expr ...]</span><br><span class="line">[</span><br><span class="line">    FROM table_references</span><br><span class="line">    [WHERE where_condition]</span><br><span class="line">    [GROUP BY &#123;col_name|position&#125; [ASC|DESC], ...]</span><br><span class="line">    [HAVING where_condition]</span><br><span class="line">    [ORDER BY &#123;col_name|expr|position&#125; [ASC|DESC], ...]</span><br><span class="line">    [LIMIT &#123;[offset,] row_count&#125;|row_count OFFSET offset]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查询表达式(select_expr)</li>
+</ul>
+<blockquote>
+<p>每一个表达式表示想要的一列，必须有至少一个。</p>
+<p>多个列之间以英文逗号分隔。</p>
+<p>星号(<em>)表示所有列。tbl_name. </em>可以表示命名表的所有列。</p>
+<p>查询表达式可以用[AS] alias_name为其赋予别名。</p>
+<p>别名可用于GROUP BY, ORDER BY或HAVING字句。</p>
+</blockquote>
+<ul>
+<li>WHERE条件表达式</li>
+</ul>
+<blockquote>
+<p>对记录进行过滤，如果没有指定WHERE子句，则显示所有记录。</p>
+<p>在WHERE表达式中，可以使用MySQL支持的函数或运算符。</p>
+</blockquote>
+
+        
+
+        
+    </section>
+</article>
+
+        </div>
+      
+    
+      
+        <div class="post-wrapper">
+          <article class="post reveal ">
+    
+<section class="meta">
+  
+  <div class="meta" id="header-meta">
+    
+      <h2 class="title">
+          <a href="/2019/03/24/MySQL约束以及修改数据表/">
+              
+                  MySQL约束以及修改数据表
+              
+          </a>
+      </h2>
+    
+
+    
+      <time class="metatag time">
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-03-24
+      </time>
+    
+
+    
+      
+    
+    <div class="metatag cats">
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/MySQL笔记/">MySQL笔记</a>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </div>
+</section>
+
+    <section class="article typo">
+        <h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><ul>
+<li>1.约束保证数据的完整性和一致性。</li>
+<li>2.约束分为表级约束和列级约束。</li>
+<li>3.约束类型包括：<br>NOT NULL(非空约束)<br>PRIMARY KEY(主键约束)<br>UNIQUE KEY(唯一约束)<br>DEFAULT(默认约束)<br>FOREIGN KEY(外键约束)<h4 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h4></li>
+</ul>
+<blockquote>
+<p>保证数据一致性，完整性。<br>实现一对一或一对多关系。</p>
+</blockquote>
+<ul>
+<li>外键约束的要求</li>
+</ul>
+<blockquote>
+<p>1.父表和子表必须使用相同的存储引擎，而且禁止使用临时表。<br>2.数据表的存储引擎只能为InnoDB。<br>3.外键列和参照列必须具有相似的数据类型。其中数字的长度或是否有符号位必须相同；而字符的长度则可以不同。<br>4.外键列和参照列必须创建索引。如果外键列不存在索引的话，MySQL将自动创建索引。</p>
+</blockquote>
+<ul>
+<li>编辑数据表的默认存储引擎</li>
+</ul>
+<blockquote>
+<p>MySQL配置文件</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default-storage-engine=INNODB</span><br></pre></td></tr></table></figure>
+<ul>
+<li>外键约束的参照操作</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参考操作</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CASCADE</td>
+<td style="text-align:center">从父表删除或更新且自动删除或更新子表中匹配的行</td>
+</tr>
+<tr>
+<td style="text-align:center">SET NULL</td>
+<td style="text-align:center">从父表删除或更新行，并设置子表中的外键列为NULL。如果使用该选项，必须保证子表列没有指定NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align:center">RESTRICT</td>
+<td style="text-align:center">拒绝对父表的删除或更新操作</td>
+</tr>
+<tr>
+<td style="text-align:center">NO ACTION</td>
+<td style="text-align:center">标准SQL的关键字，在MySQL中与RESTRICT相同</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>表级约束与列级约束</li>
+</ul>
+<blockquote>
+<p>对一个数据列建立的约束，称为列级约束。<br>对多个数据列建立的约束，称为表级约束。<br>列级约束既可以在列定义时声明，也可以在列定义后声明。<br>表级约束只能在列定义后声明。</p>
+</blockquote>
+<ul>
+<li>修改数据表</li>
+</ul>
+<blockquote>
+<p>添加单列</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ADD</span> [<span class="keyword">COLUMN</span>] col_name column_definition [<span class="keyword">FIRST</span> | <span class="keyword">AFTER</span> col_name]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>添加多列</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ADD</span> [<span class="keyword">COLUMN</span>] (col_name column_definition,...)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除列</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">DROP</span> [<span class="keyword">COLUMN</span>] col_name</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对某张表执行多个动作，如删除多列</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">DROP</span> [<span class="keyword">COLUMN</span>] col_name, <span class="keyword">DROP</span> [<span class="keyword">COLUMN</span>] col_name</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>添加主键约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ADD</span> [<span class="keyword">CONSTRAINT</span>[symbol]] PRIMARY <span class="keyword">KEY</span> [index_type] (index_col_name,...)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>添加唯一约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ADD</span> [<span class="keyword">CONSTRAINT</span>[symbol]] <span class="keyword">UNIQUE</span> [<span class="keyword">INDEX</span>|<span class="keyword">KEY</span>] [index_name] [index_type] (index_col_name,...)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>添加外键约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ADD</span> [<span class="keyword">CONSTRAINT</span>[symbol]] FOREIGN <span class="keyword">KEY</span> [index_name] (index_col_name) <span class="keyword">REFERENCES</span> tbl_name (col_namme)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>添加或删除默认约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ALTER</span> [<span class="keyword">COLUMN</span>] col_name &#123;<span class="keyword">SET</span> <span class="keyword">DEFAULT</span> literal|<span class="keyword">DROP</span> <span class="keyword">DEFAULT</span>&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除主键约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">DROP</span> PRIMARY <span class="keyword">KEY</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除唯一约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">DROP</span> &#123;<span class="keyword">INDEX</span>|<span class="keyword">KEY</span>&#125; index_name</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除外键约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">DROP</span> FOREIGN <span class="keyword">KEY</span> fk_symbol</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>修改列定义</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">MODIFY</span> [<span class="keyword">COLUMN</span>] col_name column_definition [<span class="keyword">FIRST</span>|<span class="keyword">AFTER</span> col_name]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>修改列名称</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">CHANGE</span> [<span class="keyword">COLUMN</span>] old_col_name new_col_name column_definition [<span class="keyword">FIRST</span>|<span class="keyword">AFTER</span> col_name]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>修改表名</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">RENAME</span> [<span class="keyword">TO</span>|<span class="keyword">AS</span>] new_tbl_name</span><br><span class="line"><span class="keyword">RENAME</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">TO</span> new_tbl_name [,tbl_name2 <span class="keyword">TO</span> new_tbl_name2]...</span><br></pre></td></tr></table></figure>
+        
+
+        
+    </section>
+</article>
+
+        </div>
+      
+    
+      
+        <div class="post-wrapper">
+          <article class="post reveal ">
+    
+<section class="meta">
+  
+  <div class="meta" id="header-meta">
+    
+      <h2 class="title">
+          <a href="/2019/03/24/MySQL操作数据表与约束/">
+              
+                  MySQL操作数据表与约束
+              
+          </a>
+      </h2>
+    
+
+    
+      <time class="metatag time">
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-03-24
+      </time>
+    
+
+    
+      
+    
+    <div class="metatag cats">
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/MySQL笔记/">MySQL笔记</a>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </div>
+</section>
+
+    <section class="article typo">
+        <h3 id="1-MySQL操作数据表"><a href="#1-MySQL操作数据表" class="headerlink" title="1. MySQL操作数据表"></a>1. MySQL操作数据表</h3><h4 id="1-1-创建数据表"><a href="#1-1-创建数据表" class="headerlink" title="1.1 创建数据表"></a>1.1 创建数据表</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> [<span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span>] table_name (</span><br><span class="line">	column_name data_type,</span><br><span class="line">	...</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-查看数据表列表"><a href="#1-2-查看数据表列表" class="headerlink" title="1.2 查看数据表列表"></a>1.2 查看数据表列表</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">TABLES</span> [<span class="keyword">FROM</span> db_name] [<span class="keyword">LIKE</span> <span class="string">'pattern'</span> | <span class="keyword">WHERE</span> expr]</span><br></pre></td></tr></table></figure>
+<h4 id="1-3-查看数据表结构"><a href="#1-3-查看数据表结构" class="headerlink" title="1.3 查看数据表结构"></a>1.3 查看数据表结构</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">COLUMNS</span> <span class="keyword">FROM</span> tbl_name;</span><br></pre></td></tr></table></figure>
+<h4 id="1-4-插入记录"><a href="#1-4-插入记录" class="headerlink" title="1.4 插入记录"></a>1.4 插入记录</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> [<span class="keyword">INTO</span>] tbl_name [(col_name,...)] <span class="keyword">VALUES</span>(val,...);</span><br></pre></td></tr></table></figure>
+<h4 id="1-5-记录查找"><a href="#1-5-记录查找" class="headerlink" title="1.5 记录查找"></a>1.5 记录查找</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> expr,... <span class="keyword">FROM</span> tbl_name;</span><br></pre></td></tr></table></figure>
+<h3 id="2-MySQL约束"><a href="#2-MySQL约束" class="headerlink" title="2. MySQL约束"></a>2. MySQL约束</h3><h4 id="2-1-空值与非空"><a href="#2-1-空值与非空" class="headerlink" title="2.1 空值与非空"></a>2.1 空值与非空</h4><blockquote>
+<p>NULL, 字段值可以为空<br>NOT NULL,字段值禁止为空</p>
+</blockquote>
+<h4 id="2-2-AUTO-INCREMENT"><a href="#2-2-AUTO-INCREMENT" class="headerlink" title="2.2 AUTO_INCREMENT"></a>2.2 AUTO_INCREMENT</h4><blockquote>
+<p>自动编号，且必须与主键组合使用<br>默认情况下，起始值为1，每次增量为1</p>
+</blockquote>
+<h4 id="2-3-主键约束-PRIMARY-KEY"><a href="#2-3-主键约束-PRIMARY-KEY" class="headerlink" title="2.3 主键约束(PRIMARY KEY)"></a>2.3 主键约束(PRIMARY KEY)</h4><blockquote>
+<p>每张数据表只能存在一个主键<br>主键保证记录的唯一性<br>主键自动为NOT NULL</p>
+</blockquote>
+<h4 id="2-4-唯一约束-UNIQUE-KEY"><a href="#2-4-唯一约束-UNIQUE-KEY" class="headerlink" title="2.4 唯一约束(UNIQUE KEY)"></a>2.4 唯一约束(UNIQUE KEY)</h4><blockquote>
+<p>唯一约束可以保证记录的唯一性<br>唯一约束的字段可以为空值(NULL)<br>每张数据表可以存在多个唯一约束</p>
+</blockquote>
+<h4 id="2-5-默认值-DEFAULT"><a href="#2-5-默认值-DEFAULT" class="headerlink" title="2.5 默认值(DEFAULT)"></a>2.5 默认值(DEFAULT)</h4><blockquote>
+<p>当插入记录时，如果没有明确为字段赋值，则自动赋予默认值。</p>
+</blockquote>
+
+        
+
+        
+    </section>
+</article>
+
+        </div>
+      
+    
+      
+        <div class="post-wrapper">
+          <article class="post reveal ">
+    
+<section class="meta">
+  
+  <div class="meta" id="header-meta">
+    
+      <h2 class="title">
+          <a href="/2019/03/23/MySQL数据类型/">
+              
+                  MySQL数据类型
+              
+          </a>
+      </h2>
+    
+
+    
+      <time class="metatag time">
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-03-23
+      </time>
+    
+
+    
+      
+    
+    <div class="metatag cats">
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/MySQL笔记/">MySQL笔记</a>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </div>
+</section>
+
+    <section class="article typo">
+        <h3 id="MySQL数据类型"><a href="#MySQL数据类型" class="headerlink" title="MySQL数据类型"></a>MySQL数据类型</h3><blockquote>
+<p>MySQL中定义数据字段的类型对你数据库的优化是非常重要的。<br>MySQL支持多种类型，大致可以分为三类：数值、日期/时间和字符串(字符)类型。</p>
+</blockquote>
+<hr>
+<h4 id="1-数值类型"><a href="#1-数值类型" class="headerlink" title="1.数值类型"></a>1.数值类型</h4><blockquote>
+<p>MySQL支持所有标准SQL数值数据类型。<br>BIT数据类型保存位字段值，并且支持MyISAM、MEMORY、InnoDB和BDB表。<br>作为SQL标准的扩展，MySQL也支持整数类型TINYINT、MEDIUMINT和BIGINT。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">大小(字节)</th>
+<th style="text-align:center">范围(有符号)</th>
+<th style="text-align:center">范围(无符号)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">TINYINT</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">(-128，127)</td>
+<td style="text-align:center">(0，255)</td>
+</tr>
+<tr>
+<td style="text-align:center">SMALLINT</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">(-32 768，32 767)</td>
+<td style="text-align:center">(0，65 535)</td>
+</tr>
+<tr>
+<td style="text-align:center">MEDIUMINT</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">(-2^23，2^23-1)</td>
+<td style="text-align:center">(0，2^24-1)</td>
+</tr>
+<tr>
+<td style="text-align:center">INT</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">(-2^31，2^31-1)</td>
+<td style="text-align:center">(0，2^32-1)</td>
+</tr>
+<tr>
+<td style="text-align:center">BIGINT</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">(-2^63，2^63-1)</td>
+<td style="text-align:center">(0，2^64-1)</td>
+</tr>
+<tr>
+<td style="text-align:center">FLOAT[(M,D)]</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">M是数字总位数，D是小数点后面的位数。</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">DOUBLE[(M,D)]</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-日期和时间类型"><a href="#2-日期和时间类型" class="headerlink" title="2.日期和时间类型"></a>2.日期和时间类型</h4><blockquote>
+<p>表示时间值的日期和时间类型为DATETIME、DATE、TIMESTAMP、TIME和YEAR。<br>每个时间类型有一个有效值范围和一个”零”值，当指定不合法的MySQL不能表示的值时使用”零”值。<br>TIMESTAMP类型有专有的自动更新特性，将在后面描述。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">大小(字节)</th>
+<th style="text-align:center">范围</th>
+<th style="text-align:center">格式</th>
+<th style="text-align:center">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DATE</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">1000-01-01/9999-12-31</td>
+<td style="text-align:center">YYYY-MM-DD</td>
+<td style="text-align:center">日期值</td>
+</tr>
+<tr>
+<td style="text-align:center">TIME</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">‘-838:59:59’/‘838:59:59’</td>
+<td style="text-align:center">HH:MM:SS</td>
+<td style="text-align:center">时间值或持续时间</td>
+</tr>
+<tr>
+<td style="text-align:center">YEAR</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1901/2155</td>
+<td style="text-align:center">YYYY</td>
+<td style="text-align:center">年份值</td>
+</tr>
+<tr>
+<td style="text-align:center">DATETIME</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">1000-01-01 00:00:00/9999-12-31 23:59:59</td>
+<td style="text-align:center">YYYY-MM-DD HH:MM:SS</td>
+<td style="text-align:center">混合日期和时间值</td>
+</tr>
+<tr>
+<td style="text-align:center">TIMESTAMP</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1970-01-01 00:00:00/2038</td>
+<td style="text-align:center">结束时间是第 2147483647 秒，北京时间 2038-1-19 11:14:07，格林尼治时间 2038年1月19日 凌晨 03:14:07</td>
+<td style="text-align:center">YYYYMMDD HHMMSS</td>
+<td>混合日期和时间值，时间戳</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3-字符串类型"><a href="#3-字符串类型" class="headerlink" title="3.字符串类型"></a>3.字符串类型</h4><blockquote>
+<p>字符串类型指CHAR、VARCHAR、BINARY、VARBINARY、BLOB、TEXT、ENUM和SET。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">大小(字节)</th>
+<th style="text-align:center">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CHAR</td>
+<td style="text-align:center">0-255</td>
+<td style="text-align:center">定长字符串</td>
+</tr>
+<tr>
+<td style="text-align:center">VARCHAR</td>
+<td style="text-align:center">0-65535</td>
+<td style="text-align:center">变长字符串</td>
+</tr>
+<tr>
+<td style="text-align:center">TINYBLOB</td>
+<td style="text-align:center">0-255</td>
+<td style="text-align:center">不超过 255 个字符的二进制字符串</td>
+</tr>
+<tr>
+<td style="text-align:center">TINYTEXT</td>
+<td style="text-align:center">0-255</td>
+<td style="text-align:center">短文本字符串</td>
+</tr>
+<tr>
+<td style="text-align:center">BLOB</td>
+<td style="text-align:center">0-65 535</td>
+<td style="text-align:center">二进制形式的长文本数据</td>
+</tr>
+<tr>
+<td style="text-align:center">TEXT</td>
+<td style="text-align:center">0-65 535</td>
+<td style="text-align:center">长文本数据</td>
+</tr>
+<tr>
+<td style="text-align:center">MEDIUMBLOB</td>
+<td style="text-align:center">0-16 777 215</td>
+<td style="text-align:center">二进制形式的中等长度文本数据</td>
+</tr>
+<tr>
+<td style="text-align:center">MEDIUMTEXT</td>
+<td style="text-align:center">0-16 777 215</td>
+<td style="text-align:center">中等长度文本数据</td>
+</tr>
+<tr>
+<td style="text-align:center">LONGBLOB</td>
+<td style="text-align:center">0-4 294 967 295</td>
+<td style="text-align:center">二进制形式的极大文本数据</td>
+</tr>
+<tr>
+<td style="text-align:center">LONGTEXT</td>
+<td style="text-align:center">0-4 294 967 295</td>
+<td style="text-align:center">极大文本数据</td>
+</tr>
+</tbody>
+</table>
+
+        
+
+        
+    </section>
+</article>
+
+        </div>
+      
+    
+      
+        <div class="post-wrapper">
+          <article class="post reveal ">
+    
+<section class="meta">
+  
+  <div class="meta" id="header-meta">
+    
+      <h2 class="title">
+          <a href="/2019/03/22/初涉MySQL/">
+              
+                  初涉MySQL
+              
+          </a>
+      </h2>
+    
+
+    
+      <time class="metatag time">
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-03-22
+      </time>
+    
+
+    
+      
+    
+    <div class="metatag cats">
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/MySQL笔记/">MySQL笔记</a>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </div>
+</section>
+
+    <section class="article typo">
+        <h3 id="1-1-MySQL概述"><a href="#1-1-MySQL概述" class="headerlink" title="1-1 MySQL概述"></a>1-1 MySQL概述</h3><blockquote>
+<p>MySQL由瑞典MySQL AB公司开发，目前属于Oracle公司。</p>
+<p>MySQL是一个开源的关系型数据库管理系统。</p>
+<p>MySQL分为社区版和企业版。</p>
+</blockquote>
+<h3 id="1-3-启动与停止MySQL服务"><a href="#1-3-启动与停止MySQL服务" class="headerlink" title="1-3 启动与停止MySQL服务"></a>1-3 启动与停止MySQL服务</h3><ul>
+<li>启动MySQL服务</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net <span class="keyword">start</span> MySQL</span><br></pre></td></tr></table></figure>
+<ul>
+<li>关闭MySQL服务</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net <span class="keyword">stop</span> MySQL</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-MySQL登陆与退出"><a href="#1-4-MySQL登陆与退出" class="headerlink" title="1-4 MySQL登陆与退出"></a>1-4 MySQL登陆与退出</h3><ul>
+<li>MySQL登陆</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql 参数</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-D, –database=name</td>
+<td style="text-align:center">打开指定数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">–delimiter=name</td>
+<td style="text-align:center">指定分隔符</td>
+</tr>
+<tr>
+<td style="text-align:center">-h, –host=name</td>
+<td style="text-align:center">服务器名称</td>
+</tr>
+<tr>
+<td style="text-align:center">-p, –password[=name]</td>
+<td style="text-align:center">密码</td>
+</tr>
+<tr>
+<td style="text-align:center">-P, –port=#</td>
+<td style="text-align:center">端口号</td>
+</tr>
+<tr>
+<td style="text-align:center">–prompt=name</td>
+<td style="text-align:center">设置提示符</td>
+</tr>
+<tr>
+<td style="text-align:center">-u, –user=name</td>
+<td style="text-align:center">用户名</td>
+</tr>
+<tr>
+<td style="text-align:center">-V, –version</td>
+<td style="text-align:center">输出版本信息并且退出</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>MySQL退出</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">exit;</span><br><span class="line">quit;</span><br><span class="line">\q;</span><br></pre></td></tr></table></figure>
+<h3 id="1-5-修改MySQL提示符"><a href="#1-5-修改MySQL提示符" class="headerlink" title="1-5 修改MySQL提示符"></a>1-5 修改MySQL提示符</h3><ul>
+<li><p>连接客户端时通过参数指定</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -proot <span class="comment">--prompt 提示符</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>连接上客户端后，通过prompt命令修改</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt 提示符</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">\D</td>
+<td style="text-align:center">完整的日期</td>
+</tr>
+<tr>
+<td style="text-align:center">\d</td>
+<td style="text-align:center">当前数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">\h</td>
+<td style="text-align:center">服务器名称</td>
+</tr>
+<tr>
+<td style="text-align:center">\u</td>
+<td style="text-align:center">当前用户</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-6-MySQL常用命令以及语法规范"><a href="#1-6-MySQL常用命令以及语法规范" class="headerlink" title="1-6 MySQL常用命令以及语法规范"></a>1-6 MySQL常用命令以及语法规范</h3><ul>
+<li>显示当前服务器版本</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">VERSION</span>();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>显示当前日期时间</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">NOW</span>();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>显示当前用户</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">USER</span>();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>MySQL语句的规范</li>
+</ul>
+<blockquote>
+<p>关键字与函数名称全部大写<br>数据库名称，表名称，字段名称全部小写<br>SQL语句必须以分号结尾</p>
+</blockquote>
+<h3 id="1-7-操作数据库"><a href="#1-7-操作数据库" class="headerlink" title="1-7 操作数据库"></a>1-7 操作数据库</h3><ul>
+<li>创建数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> &#123;<span class="keyword">DATABASE</span> | <span class="keyword">SCHEMA</span>&#125; [<span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span>] db_name [<span class="keyword">DEFAULT</span>] <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> [=] charset_name</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看数据库列表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> &#123;<span class="keyword">DATABASES</span> | SCHEMAS&#125; [<span class="keyword">LIKE</span> <span class="string">'pattern'</span> | <span class="keyword">WHERE</span> expr]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看警告</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">WARNINGS</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看建数据库语句</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> db_name;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> &#123;<span class="keyword">DATABASE</span> | <span class="keyword">SCHEMA</span>&#125; [db_name]</span><br><span class="line">[<span class="keyword">DEFAULT</span>] <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> [=] charset_name;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> &#123;<span class="keyword">DATABASE</span> | <span class="keyword">SCHEMA</span>&#125; [<span class="keyword">IF</span> <span class="keyword">EXISTS</span>] db_name；</span><br></pre></td></tr></table></figure>
+<ul>
+<li>打开数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> db_name;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看打开的数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DATABASE</span>();</span><br></pre></td></tr></table></figure>
+
+        
+
+        
+    </section>
+</article>
+
+        </div>
+      
     
       
         <div class="post-wrapper">
@@ -720,66 +1571,26 @@
         </div>
       
     
-      
-        <div class="post-wrapper">
-          <article class="post reveal ">
-    
-<section class="meta">
-  
-  <div class="meta" id="header-meta">
-    
-      <h2 class="title">
-          <a href="/2018/04/04/Tomcat开启gzip压缩/">
-              
-                  Tomcat开启gzip压缩
-              
-          </a>
-      </h2>
-    
-
-    
-      <time class="metatag time">
-        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2018-04-04
-      </time>
-    
-
-    
-      
-
-    
-
-    
-
-    
-
-  </div>
 </section>
 
-    <section class="article typo">
-        <h3 id="一、原理介绍"><a href="#一、原理介绍" class="headerlink" title="一、原理介绍"></a>一、原理介绍</h3><p>HTTP 压缩可以大大提高浏览网站的速度，它的原理是，在客户端请求服务器对应资源后，从服务器端将资源文件压缩，再输出到客户端，由客户端的浏览器负责解压缩并浏览。相对于普通的浏览过程HTML ,CSS,Javascript , Text ，它可以节省40%左右的流量。更为重要的是，它可以对动态生成的，包括CGI、PHP , JSP , ASP , Servlet,SHTML等输出的网页也能进行压缩，压缩效率也很高。</p>
-<h3 id="二、Tomcat配置"><a href="#二、Tomcat配置" class="headerlink" title="二、Tomcat配置"></a>二、Tomcat配置</h3><p>编辑tomcat目录下的conf/server.xml</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-<p>改为:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">redirectPort</span>=<span class="string">"8443"</span> </span></span><br><span class="line"><span class="tag">               <span class="attr">URIEncoding</span>=<span class="string">"UTF-8"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">compression</span>=<span class="string">"on"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">noCompressionUserAgents</span>=<span class="string">"gozilla, traviata"</span> </span></span><br><span class="line"><span class="tag">               <span class="attr">compressableMimeType</span>=<span class="string">"text/html,text/javascript,text/css"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-<p>参数说明:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">compression="on" 打开压缩功能。</span><br><span class="line">compressionMinSize="2048" 启用压缩的输出内容大小，这里面默认为2KB。</span><br><span class="line">noCompressionUserAgents="gozilla, traviata" 对于这些浏览器，不启用压缩。</span><br><span class="line">compressableMimeType="text/html,text/xml" 压缩类型。</span><br><span class="line">URIEncoding="UTF-8" 设置编码为UTF-8。</span><br></pre></td></tr></table></figure>
-<h3 id="三、测试"><a href="#三、测试" class="headerlink" title="三、测试"></a>三、测试</h3><p>对同一个接口，开启gzip压缩和不开启gzip压缩进行测试，不开启gzip，接收数据1.5MB，而开启gzip压缩后接收数据86.4KB，压缩率94%</p>
-<p><img src="https://lengmuyun.github.io/uploads/pic-gzip.png" alt="image"></p>
-<p><img src="https://lengmuyun.github.io/uploads/pic-withoutgzip.png" alt="image"></p>
-<p>参考链接:</p>
-<p><a href="https://blog.csdn.net/qing_gee/article/details/51538598" target="_blank" rel="noopener">https://blog.csdn.net/qing_gee/article/details/51538598</a></p>
-<p><a href="https://my.oschina.net/refresh/blog/90986" target="_blank" rel="noopener">https://my.oschina.net/refresh/blog/90986</a></p>
 
-        
-
-        
-    </section>
-</article>
+    <br>
+    <div class="prev-next">
+        <div class="prev-next">
+            
+            <p class="current">
+                1 / 2
+            </p>
+            
+                <a class="next" rel="next" href="/page/2/">
+                    <section class="post next">
+                        &nbsp;Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    </section>
+                </a>
+            
 
         </div>
-      
-    
-</section>
+    </div>
 
 
 
@@ -857,7 +1668,11 @@
     <div class="content pure">
       <ul class="entry">
         
+          <li><a class="flat-box" title="/categories/CentOS/" href="/categories/CentOS/"><div class="name">CentOS</div><div class="badge">(1)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/MySQL必知必会笔记/" href="/categories/MySQL必知必会笔记/"><div class="name">MySQL必知必会笔记</div><div class="badge">(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/MySQL笔记/" href="/categories/MySQL笔记/"><div class="name">MySQL笔记</div><div class="badge">(5)</div></a></li>
         
           <li><a class="flat-box" title="/categories/深入理解Java虚拟机笔记/" href="/categories/深入理解Java虚拟机笔记/"><div class="name">深入理解Java虚拟机笔记</div><div class="badge">(1)</div></a></li>
         

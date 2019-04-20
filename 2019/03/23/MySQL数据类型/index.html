@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>Java内存区域和内存溢出异常 | lengmuyun&#39;s Blog</title>
+  <title>MySQL数据类型 | lengmuyun&#39;s Blog</title>
   
   
 
@@ -135,13 +135,13 @@
   <div class="meta" id="header-meta">
     
       
-          <h1 class="title">Java内存区域和内存溢出异常</h1>
+          <h1 class="title">MySQL数据类型</h1>
       
     
 
     
       <time class="metatag time">
-        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2018-07-01
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-03-23
       </time>
     
 
@@ -149,7 +149,7 @@
       
     
     <div class="metatag cats">
-        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/深入理解Java虚拟机笔记/">深入理解Java虚拟机笔记</a>
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/MySQL笔记/">MySQL笔记</a>
     </div>
 
 
@@ -170,38 +170,189 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <h3 id="2-2-运行时数据区域"><a href="#2-2-运行时数据区域" class="headerlink" title="2.2 运行时数据区域"></a>2.2 运行时数据区域</h3><blockquote>
-<p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的区域。这些区域都有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线程的启动和结束而建立和销毁。</p>
+        <h3 id="MySQL数据类型"><a href="#MySQL数据类型" class="headerlink" title="MySQL数据类型"></a>MySQL数据类型</h3><blockquote>
+<p>MySQL中定义数据字段的类型对你数据库的优化是非常重要的。<br>MySQL支持多种类型，大致可以分为三类：数值、日期/时间和字符串(字符)类型。</p>
 </blockquote>
-<p><img src="http://www.2cto.com/uploadfile/Collfiles/20161103/201611030932231070.jpg" alt="image"></p>
-<h4 id="2-2-1-程序计数器"><a href="#2-2-1-程序计数器" class="headerlink" title="2.2.1 程序计数器"></a>2.2.1 程序计数器</h4><blockquote>
-<p>程序计数器(Program Counter Register)是一块较小的内存空间，它可以看做是当前线程所执行的字节码的行号指示器。</p>
-<p>在虚拟机的概念模型里(仅是概念模型，各种虚拟机的可能会通过一些更高效的方式去实现)，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
+<hr>
+<h4 id="1-数值类型"><a href="#1-数值类型" class="headerlink" title="1.数值类型"></a>1.数值类型</h4><blockquote>
+<p>MySQL支持所有标准SQL数值数据类型。<br>BIT数据类型保存位字段值，并且支持MyISAM、MEMORY、InnoDB和BDB表。<br>作为SQL标准的扩展，MySQL也支持整数类型TINYINT、MEDIUMINT和BIGINT。</p>
 </blockquote>
-<h4 id="2-2-2-Java虚拟机栈"><a href="#2-2-2-Java虚拟机栈" class="headerlink" title="2.2.2 Java虚拟机栈"></a>2.2.2 Java虚拟机栈</h4><blockquote>
-<p>虚拟机栈描述的是Java方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧(Stack Frame)用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
-<p>局部变量表存放了编译期可知的各种基本数据类型(boolean，byte，char，short，int，float，long，double)、对象引用(reference类型，它不等同于对象本身，可能是一条指向对象起始地址的引用指针，也可能是指向一个代表对象的句柄或其他与此对象相关的位置)和returnAddress类型(指向了一条字节码指令的地址)。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">大小(字节)</th>
+<th style="text-align:center">范围(有符号)</th>
+<th style="text-align:center">范围(无符号)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">TINYINT</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">(-128，127)</td>
+<td style="text-align:center">(0，255)</td>
+</tr>
+<tr>
+<td style="text-align:center">SMALLINT</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">(-32 768，32 767)</td>
+<td style="text-align:center">(0，65 535)</td>
+</tr>
+<tr>
+<td style="text-align:center">MEDIUMINT</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">(-2^23，2^23-1)</td>
+<td style="text-align:center">(0，2^24-1)</td>
+</tr>
+<tr>
+<td style="text-align:center">INT</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">(-2^31，2^31-1)</td>
+<td style="text-align:center">(0，2^32-1)</td>
+</tr>
+<tr>
+<td style="text-align:center">BIGINT</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">(-2^63，2^63-1)</td>
+<td style="text-align:center">(0，2^64-1)</td>
+</tr>
+<tr>
+<td style="text-align:center">FLOAT[(M,D)]</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">M是数字总位数，D是小数点后面的位数。</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">DOUBLE[(M,D)]</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-日期和时间类型"><a href="#2-日期和时间类型" class="headerlink" title="2.日期和时间类型"></a>2.日期和时间类型</h4><blockquote>
+<p>表示时间值的日期和时间类型为DATETIME、DATE、TIMESTAMP、TIME和YEAR。<br>每个时间类型有一个有效值范围和一个”零”值，当指定不合法的MySQL不能表示的值时使用”零”值。<br>TIMESTAMP类型有专有的自动更新特性，将在后面描述。</p>
 </blockquote>
-<h4 id="2-2-3-本地方法栈"><a href="#2-2-3-本地方法栈" class="headerlink" title="2.2.3 本地方法栈"></a>2.2.3 本地方法栈</h4><blockquote>
-<p>本地方法栈(Native Method Stack)与虚拟机栈所发挥的作用是非常相似的，他们之间的区别不过是虚拟机栈是为虚拟机执行Java方法(也就是字节码)服务，而本地方法栈则为虚拟机使用到的Native方法服务。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">大小(字节)</th>
+<th style="text-align:center">范围</th>
+<th style="text-align:center">格式</th>
+<th style="text-align:center">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DATE</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">1000-01-01/9999-12-31</td>
+<td style="text-align:center">YYYY-MM-DD</td>
+<td style="text-align:center">日期值</td>
+</tr>
+<tr>
+<td style="text-align:center">TIME</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">‘-838:59:59’/‘838:59:59’</td>
+<td style="text-align:center">HH:MM:SS</td>
+<td style="text-align:center">时间值或持续时间</td>
+</tr>
+<tr>
+<td style="text-align:center">YEAR</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1901/2155</td>
+<td style="text-align:center">YYYY</td>
+<td style="text-align:center">年份值</td>
+</tr>
+<tr>
+<td style="text-align:center">DATETIME</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">1000-01-01 00:00:00/9999-12-31 23:59:59</td>
+<td style="text-align:center">YYYY-MM-DD HH:MM:SS</td>
+<td style="text-align:center">混合日期和时间值</td>
+</tr>
+<tr>
+<td style="text-align:center">TIMESTAMP</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1970-01-01 00:00:00/2038</td>
+<td style="text-align:center">结束时间是第 2147483647 秒，北京时间 2038-1-19 11:14:07，格林尼治时间 2038年1月19日 凌晨 03:14:07</td>
+<td style="text-align:center">YYYYMMDD HHMMSS</td>
+<td>混合日期和时间值，时间戳</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3-字符串类型"><a href="#3-字符串类型" class="headerlink" title="3.字符串类型"></a>3.字符串类型</h4><blockquote>
+<p>字符串类型指CHAR、VARCHAR、BINARY、VARBINARY、BLOB、TEXT、ENUM和SET。</p>
 </blockquote>
-<h4 id="2-2-4-Java堆"><a href="#2-2-4-Java堆" class="headerlink" title="2.2.4 Java堆"></a>2.2.4 Java堆</h4><blockquote>
-<p>所有的对象实例以及数组都要在堆上分配，但是随着JIT编译器的发展与逃逸分析技术逐渐成熟，栈上分配、标量替换优化技术将会导致一些微妙的变化发生，所有的对象都分配在堆上也渐渐变得不是那么“绝对”了。</p>
-<p>Java堆还可以细分为：新生代和老年代；再细致一点的有：Eden空间、From Survivor空间、To Survivor空间等。</p>
-</blockquote>
-<h4 id="2-2-5-方法区"><a href="#2-2-5-方法区" class="headerlink" title="2.2.5 方法区"></a>2.2.5 方法区</h4><blockquote>
-<p>方法区(Method Area)与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。</p>
-</blockquote>
-<h4 id="2-2-6-运行时常量池"><a href="#2-2-6-运行时常量池" class="headerlink" title="2.2.6 运行时常量池"></a>2.2.6 运行时常量池</h4><blockquote>
-<p>运行时常量池(Runtime Constant Pool)是方法区的一部分。Class文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池(Constant Pool Table)，用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
-</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">大小(字节)</th>
+<th style="text-align:center">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CHAR</td>
+<td style="text-align:center">0-255</td>
+<td style="text-align:center">定长字符串</td>
+</tr>
+<tr>
+<td style="text-align:center">VARCHAR</td>
+<td style="text-align:center">0-65535</td>
+<td style="text-align:center">变长字符串</td>
+</tr>
+<tr>
+<td style="text-align:center">TINYBLOB</td>
+<td style="text-align:center">0-255</td>
+<td style="text-align:center">不超过 255 个字符的二进制字符串</td>
+</tr>
+<tr>
+<td style="text-align:center">TINYTEXT</td>
+<td style="text-align:center">0-255</td>
+<td style="text-align:center">短文本字符串</td>
+</tr>
+<tr>
+<td style="text-align:center">BLOB</td>
+<td style="text-align:center">0-65 535</td>
+<td style="text-align:center">二进制形式的长文本数据</td>
+</tr>
+<tr>
+<td style="text-align:center">TEXT</td>
+<td style="text-align:center">0-65 535</td>
+<td style="text-align:center">长文本数据</td>
+</tr>
+<tr>
+<td style="text-align:center">MEDIUMBLOB</td>
+<td style="text-align:center">0-16 777 215</td>
+<td style="text-align:center">二进制形式的中等长度文本数据</td>
+</tr>
+<tr>
+<td style="text-align:center">MEDIUMTEXT</td>
+<td style="text-align:center">0-16 777 215</td>
+<td style="text-align:center">中等长度文本数据</td>
+</tr>
+<tr>
+<td style="text-align:center">LONGBLOB</td>
+<td style="text-align:center">0-4 294 967 295</td>
+<td style="text-align:center">二进制形式的极大文本数据</td>
+</tr>
+<tr>
+<td style="text-align:center">LONGTEXT</td>
+<td style="text-align:center">0-4 294 967 295</td>
+<td style="text-align:center">极大文本数据</td>
+</tr>
+</tbody>
+</table>
 
       </div>
         
           <section class="meta" id="footer-meta">
             
-              <time class="metatag time" itemprop="dateUpdated" datetime="2018-07-02T12:46:16+08:00" content="2018-07-02"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
-                &nbsp;2018-07-02
+              <time class="metatag time" itemprop="dateUpdated" datetime="2019-03-23T21:50:45+08:00" content="2019-03-23"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+                &nbsp;2019-03-23
               </time>
             
             
@@ -216,9 +367,9 @@
                         <span class="art-item-left">
                             <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
                             <h4>
-                                <a href="/2019/01/06/TCP三次握手四次挥手/" rel="prev" title="TCP三次握手四次挥手">
+                                <a href="/2019/03/24/MySQL操作数据表与约束/" rel="prev" title="MySQL操作数据表与约束">
                                   
-                                      TCP三次握手四次挥手
+                                      MySQL操作数据表与约束
                                   
                                 </a>
                             </h4>
@@ -231,9 +382,9 @@
                         <span class="art-item-right" aria-hidden="true">
                             <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/2018/05/22/第九章-用正则表达式进行搜索/" rel="prev" title="第九章-用正则表达式进行搜索">
+                                <a href="/2019/03/22/初涉MySQL/" rel="prev" title="初涉MySQL">
                                     
-                                        第九章-用正则表达式进行搜索
+                                        初涉MySQL
                                     
                                 </a>
                             </h4>
@@ -267,13 +418,13 @@
         <h4><i class="fas fa-bookmark fa-fw" aria-hidden="true"></i>&nbsp;Related Posts</h4>
         <ul>
             
+                <li><a href="https://lengmuyun.github.io/2019/03/24/MySQL约束以及修改数据表/">MySQL约束以及修改数据表</a></li>
+            
+                <li><a href="https://lengmuyun.github.io/2019/03/24/MySQL操作数据表与约束/">MySQL操作数据表与约束</a></li>
+            
                 <li><a href="https://lengmuyun.github.io/2019/03/22/初涉MySQL/">初涉MySQL</a></li>
             
                 <li><a href="https://lengmuyun.github.io/2019/01/06/TCP三次握手四次挥手/">TCP三次握手四次挥手</a></li>
-            
-                <li><a href="https://lengmuyun.github.io/2018/05/22/第九章-用正则表达式进行搜索/">第九章-用正则表达式进行搜索</a></li>
-            
-                <li><a href="https://lengmuyun.github.io/2018/05/22/第八章-用通配符进行过滤/">第八章-用通配符进行过滤</a></li>
             
         </ul>
     </div>
@@ -289,7 +440,7 @@
 
 <script>
     window.subData = {
-        title: 'Java内存区域和内存溢出异常',
+        title: 'MySQL数据类型',
         tools: true
     }
 </script>
@@ -463,7 +614,7 @@
 </header>
 
     <div class="content pure">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-运行时数据区域"><span class="toc-text">2.2 运行时数据区域</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-程序计数器"><span class="toc-text">2.2.1 程序计数器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-Java虚拟机栈"><span class="toc-text">2.2.2 Java虚拟机栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-本地方法栈"><span class="toc-text">2.2.3 本地方法栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-Java堆"><span class="toc-text">2.2.4 Java堆</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-方法区"><span class="toc-text">2.2.5 方法区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-6-运行时常量池"><span class="toc-text">2.2.6 运行时常量池</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL数据类型"><span class="toc-text">MySQL数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-数值类型"><span class="toc-text">1.数值类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-日期和时间类型"><span class="toc-text">2.日期和时间类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-字符串类型"><span class="toc-text">3.字符串类型</span></a></li></ol></li></ol>
     </div>
   </section>
 

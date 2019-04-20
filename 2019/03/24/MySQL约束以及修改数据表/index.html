@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>Java内存区域和内存溢出异常 | lengmuyun&#39;s Blog</title>
+  <title>MySQL约束以及修改数据表 | lengmuyun&#39;s Blog</title>
   
   
 
@@ -135,13 +135,13 @@
   <div class="meta" id="header-meta">
     
       
-          <h1 class="title">Java内存区域和内存溢出异常</h1>
+          <h1 class="title">MySQL约束以及修改数据表</h1>
       
     
 
     
       <time class="metatag time">
-        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2018-07-01
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-03-24
       </time>
     
 
@@ -149,7 +149,7 @@
       
     
     <div class="metatag cats">
-        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/深入理解Java虚拟机笔记/">深入理解Java虚拟机笔记</a>
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/MySQL笔记/">MySQL笔记</a>
     </div>
 
 
@@ -170,38 +170,127 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <h3 id="2-2-运行时数据区域"><a href="#2-2-运行时数据区域" class="headerlink" title="2.2 运行时数据区域"></a>2.2 运行时数据区域</h3><blockquote>
-<p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的区域。这些区域都有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线程的启动和结束而建立和销毁。</p>
+        <h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><ul>
+<li>1.约束保证数据的完整性和一致性。</li>
+<li>2.约束分为表级约束和列级约束。</li>
+<li>3.约束类型包括：<br>NOT NULL(非空约束)<br>PRIMARY KEY(主键约束)<br>UNIQUE KEY(唯一约束)<br>DEFAULT(默认约束)<br>FOREIGN KEY(外键约束)<h4 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h4></li>
+</ul>
+<blockquote>
+<p>保证数据一致性，完整性。<br>实现一对一或一对多关系。</p>
 </blockquote>
-<p><img src="http://www.2cto.com/uploadfile/Collfiles/20161103/201611030932231070.jpg" alt="image"></p>
-<h4 id="2-2-1-程序计数器"><a href="#2-2-1-程序计数器" class="headerlink" title="2.2.1 程序计数器"></a>2.2.1 程序计数器</h4><blockquote>
-<p>程序计数器(Program Counter Register)是一块较小的内存空间，它可以看做是当前线程所执行的字节码的行号指示器。</p>
-<p>在虚拟机的概念模型里(仅是概念模型，各种虚拟机的可能会通过一些更高效的方式去实现)，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
+<ul>
+<li>外键约束的要求</li>
+</ul>
+<blockquote>
+<p>1.父表和子表必须使用相同的存储引擎，而且禁止使用临时表。<br>2.数据表的存储引擎只能为InnoDB。<br>3.外键列和参照列必须具有相似的数据类型。其中数字的长度或是否有符号位必须相同；而字符的长度则可以不同。<br>4.外键列和参照列必须创建索引。如果外键列不存在索引的话，MySQL将自动创建索引。</p>
 </blockquote>
-<h4 id="2-2-2-Java虚拟机栈"><a href="#2-2-2-Java虚拟机栈" class="headerlink" title="2.2.2 Java虚拟机栈"></a>2.2.2 Java虚拟机栈</h4><blockquote>
-<p>虚拟机栈描述的是Java方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧(Stack Frame)用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
-<p>局部变量表存放了编译期可知的各种基本数据类型(boolean，byte，char，short，int，float，long，double)、对象引用(reference类型，它不等同于对象本身，可能是一条指向对象起始地址的引用指针，也可能是指向一个代表对象的句柄或其他与此对象相关的位置)和returnAddress类型(指向了一条字节码指令的地址)。</p>
+<ul>
+<li>编辑数据表的默认存储引擎</li>
+</ul>
+<blockquote>
+<p>MySQL配置文件</p>
 </blockquote>
-<h4 id="2-2-3-本地方法栈"><a href="#2-2-3-本地方法栈" class="headerlink" title="2.2.3 本地方法栈"></a>2.2.3 本地方法栈</h4><blockquote>
-<p>本地方法栈(Native Method Stack)与虚拟机栈所发挥的作用是非常相似的，他们之间的区别不过是虚拟机栈是为虚拟机执行Java方法(也就是字节码)服务，而本地方法栈则为虚拟机使用到的Native方法服务。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default-storage-engine=INNODB</span><br></pre></td></tr></table></figure>
+<ul>
+<li>外键约束的参照操作</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参考操作</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CASCADE</td>
+<td style="text-align:center">从父表删除或更新且自动删除或更新子表中匹配的行</td>
+</tr>
+<tr>
+<td style="text-align:center">SET NULL</td>
+<td style="text-align:center">从父表删除或更新行，并设置子表中的外键列为NULL。如果使用该选项，必须保证子表列没有指定NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align:center">RESTRICT</td>
+<td style="text-align:center">拒绝对父表的删除或更新操作</td>
+</tr>
+<tr>
+<td style="text-align:center">NO ACTION</td>
+<td style="text-align:center">标准SQL的关键字，在MySQL中与RESTRICT相同</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>表级约束与列级约束</li>
+</ul>
+<blockquote>
+<p>对一个数据列建立的约束，称为列级约束。<br>对多个数据列建立的约束，称为表级约束。<br>列级约束既可以在列定义时声明，也可以在列定义后声明。<br>表级约束只能在列定义后声明。</p>
 </blockquote>
-<h4 id="2-2-4-Java堆"><a href="#2-2-4-Java堆" class="headerlink" title="2.2.4 Java堆"></a>2.2.4 Java堆</h4><blockquote>
-<p>所有的对象实例以及数组都要在堆上分配，但是随着JIT编译器的发展与逃逸分析技术逐渐成熟，栈上分配、标量替换优化技术将会导致一些微妙的变化发生，所有的对象都分配在堆上也渐渐变得不是那么“绝对”了。</p>
-<p>Java堆还可以细分为：新生代和老年代；再细致一点的有：Eden空间、From Survivor空间、To Survivor空间等。</p>
+<ul>
+<li>修改数据表</li>
+</ul>
+<blockquote>
+<p>添加单列</p>
 </blockquote>
-<h4 id="2-2-5-方法区"><a href="#2-2-5-方法区" class="headerlink" title="2.2.5 方法区"></a>2.2.5 方法区</h4><blockquote>
-<p>方法区(Method Area)与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ADD</span> [<span class="keyword">COLUMN</span>] col_name column_definition [<span class="keyword">FIRST</span> | <span class="keyword">AFTER</span> col_name]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>添加多列</p>
 </blockquote>
-<h4 id="2-2-6-运行时常量池"><a href="#2-2-6-运行时常量池" class="headerlink" title="2.2.6 运行时常量池"></a>2.2.6 运行时常量池</h4><blockquote>
-<p>运行时常量池(Runtime Constant Pool)是方法区的一部分。Class文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池(Constant Pool Table)，用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ADD</span> [<span class="keyword">COLUMN</span>] (col_name column_definition,...)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除列</p>
 </blockquote>
-
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">DROP</span> [<span class="keyword">COLUMN</span>] col_name</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对某张表执行多个动作，如删除多列</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">DROP</span> [<span class="keyword">COLUMN</span>] col_name, <span class="keyword">DROP</span> [<span class="keyword">COLUMN</span>] col_name</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>添加主键约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ADD</span> [<span class="keyword">CONSTRAINT</span>[symbol]] PRIMARY <span class="keyword">KEY</span> [index_type] (index_col_name,...)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>添加唯一约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ADD</span> [<span class="keyword">CONSTRAINT</span>[symbol]] <span class="keyword">UNIQUE</span> [<span class="keyword">INDEX</span>|<span class="keyword">KEY</span>] [index_name] [index_type] (index_col_name,...)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>添加外键约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ADD</span> [<span class="keyword">CONSTRAINT</span>[symbol]] FOREIGN <span class="keyword">KEY</span> [index_name] (index_col_name) <span class="keyword">REFERENCES</span> tbl_name (col_namme)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>添加或删除默认约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">ALTER</span> [<span class="keyword">COLUMN</span>] col_name &#123;<span class="keyword">SET</span> <span class="keyword">DEFAULT</span> literal|<span class="keyword">DROP</span> <span class="keyword">DEFAULT</span>&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除主键约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">DROP</span> PRIMARY <span class="keyword">KEY</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除唯一约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">DROP</span> &#123;<span class="keyword">INDEX</span>|<span class="keyword">KEY</span>&#125; index_name</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除外键约束</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">DROP</span> FOREIGN <span class="keyword">KEY</span> fk_symbol</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>修改列定义</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">MODIFY</span> [<span class="keyword">COLUMN</span>] col_name column_definition [<span class="keyword">FIRST</span>|<span class="keyword">AFTER</span> col_name]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>修改列名称</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">CHANGE</span> [<span class="keyword">COLUMN</span>] old_col_name new_col_name column_definition [<span class="keyword">FIRST</span>|<span class="keyword">AFTER</span> col_name]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>修改表名</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">RENAME</span> [<span class="keyword">TO</span>|<span class="keyword">AS</span>] new_tbl_name</span><br><span class="line"><span class="keyword">RENAME</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">TO</span> new_tbl_name [,tbl_name2 <span class="keyword">TO</span> new_tbl_name2]...</span><br></pre></td></tr></table></figure>
       </div>
         
           <section class="meta" id="footer-meta">
             
-              <time class="metatag time" itemprop="dateUpdated" datetime="2018-07-02T12:46:16+08:00" content="2018-07-02"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
-                &nbsp;2018-07-02
+              <time class="metatag time" itemprop="dateUpdated" datetime="2019-03-30T19:02:04+08:00" content="2019-03-30"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+                &nbsp;2019-03-30
               </time>
             
             
@@ -216,9 +305,9 @@
                         <span class="art-item-left">
                             <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
                             <h4>
-                                <a href="/2019/01/06/TCP三次握手四次挥手/" rel="prev" title="TCP三次握手四次挥手">
+                                <a href="/2019/03/30/MySQL操作数据表的记录/" rel="prev" title="MySQL操作数据表的记录">
                                   
-                                      TCP三次握手四次挥手
+                                      MySQL操作数据表的记录
                                   
                                 </a>
                             </h4>
@@ -231,9 +320,9 @@
                         <span class="art-item-right" aria-hidden="true">
                             <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/2018/05/22/第九章-用正则表达式进行搜索/" rel="prev" title="第九章-用正则表达式进行搜索">
+                                <a href="/2019/03/24/MySQL操作数据表与约束/" rel="prev" title="MySQL操作数据表与约束">
                                     
-                                        第九章-用正则表达式进行搜索
+                                        MySQL操作数据表与约束
                                     
                                 </a>
                             </h4>
@@ -267,13 +356,13 @@
         <h4><i class="fas fa-bookmark fa-fw" aria-hidden="true"></i>&nbsp;Related Posts</h4>
         <ul>
             
-                <li><a href="https://lengmuyun.github.io/2019/03/22/初涉MySQL/">初涉MySQL</a></li>
+                <li><a href="https://lengmuyun.github.io/2019/04/20/CentOS7安装JDK8/">CentOS7安装JDK8</a></li>
             
-                <li><a href="https://lengmuyun.github.io/2019/01/06/TCP三次握手四次挥手/">TCP三次握手四次挥手</a></li>
+                <li><a href="https://lengmuyun.github.io/2019/03/30/MySQL操作数据表的记录/">MySQL操作数据表的记录</a></li>
             
-                <li><a href="https://lengmuyun.github.io/2018/05/22/第九章-用正则表达式进行搜索/">第九章-用正则表达式进行搜索</a></li>
+                <li><a href="https://lengmuyun.github.io/2019/03/24/MySQL操作数据表与约束/">MySQL操作数据表与约束</a></li>
             
-                <li><a href="https://lengmuyun.github.io/2018/05/22/第八章-用通配符进行过滤/">第八章-用通配符进行过滤</a></li>
+                <li><a href="https://lengmuyun.github.io/2019/03/23/MySQL数据类型/">MySQL数据类型</a></li>
             
         </ul>
     </div>
@@ -289,7 +378,7 @@
 
 <script>
     window.subData = {
-        title: 'Java内存区域和内存溢出异常',
+        title: 'MySQL约束以及修改数据表',
         tools: true
     }
 </script>
@@ -463,7 +552,7 @@
 </header>
 
     <div class="content pure">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-运行时数据区域"><span class="toc-text">2.2 运行时数据区域</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-程序计数器"><span class="toc-text">2.2.1 程序计数器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-Java虚拟机栈"><span class="toc-text">2.2.2 Java虚拟机栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-本地方法栈"><span class="toc-text">2.2.3 本地方法栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-Java堆"><span class="toc-text">2.2.4 Java堆</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-方法区"><span class="toc-text">2.2.5 方法区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-6-运行时常量池"><span class="toc-text">2.2.6 运行时常量池</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#约束"><span class="toc-text">约束</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#外键约束"><span class="toc-text">外键约束</span></a></li></ol></li></ol>
     </div>
   </section>
 
