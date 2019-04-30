@@ -61,13 +61,13 @@
   					
   						<li>
 								<a id="home" class="nav flat-box" href="/">
-									<i class="fas fa-home fa-fw"></i>&nbsp;主頁
+									<i class="fas fa-home fa-fw"></i>&nbsp;Home
 								</a>
 							</li>
       			
   						<li>
 								<a id="archives" class="nav flat-box" href="/archives/">
-									<i class="fas fa-archive fa-fw"></i>&nbsp;歸檔
+									<i class="fas fa-archive fa-fw"></i>&nbsp;Archives
 								</a>
 							</li>
       			
@@ -78,7 +78,7 @@
 			
 				<div class="m_search">
 					<form name="searchform" class="form u-search-form">
-						<input type="text" class="input u-search-input" placeholder="搜尋">
+						<input type="text" class="input u-search-input" placeholder="Search">
 						<span class="icon"><i class="fas fa-search fa-fw"></i></span>
 					</form>
 				</div>
@@ -108,13 +108,13 @@
               
                   <li>
 										<a id="home" class="nav flat-box" href="/">
-											<i class="fas fa-home fa-fw"></i>&nbsp;主頁
+											<i class="fas fa-home fa-fw"></i>&nbsp;Home
 										</a>
                   </li>
               
                   <li>
 										<a id="archives" class="nav flat-box" href="/archives/">
-											<i class="fas fa-archive fa-fw"></i>&nbsp;歸檔
+											<i class="fas fa-archive fa-fw"></i>&nbsp;Archives
 										</a>
                   </li>
               
@@ -162,7 +162,99 @@
       
         
       
+        
+      
     
+    
+      
+        <div class="post-wrapper">
+          <article class="post reveal ">
+    
+<section class="meta">
+  
+  <div class="meta" id="header-meta">
+    
+      <h2 class="title">
+          <a href="/2019/04/30/CentOS7安装MySQL/">
+              
+                  CentOS7安装MySQL
+              
+          </a>
+      </h2>
+    
+
+    
+      <time class="metatag time">
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-04-30
+      </time>
+    
+
+    
+      
+    
+    <div class="metatag cats">
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/CentOS/">CentOS</a>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </div>
+</section>
+
+    <section class="article typo">
+        <h3 id="1-配置YUM源"><a href="#1-配置YUM源" class="headerlink" title="1.配置YUM源"></a>1.配置YUM源</h3><ul>
+<li>1.1 下载YUM源rpm安装包</li>
+</ul>
+<p>在MySQL官网中下载YUM源rpm安装包：<a href="http://dev.mysql.com/downloads/repo/yum/" target="_blank" rel="noopener">http://dev.mysql.com/downloads/repo/yum/</a></p>
+<ul>
+<li>1.2 安装mysql源</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum localinstall mysql80-community-release-el7-3.noarch.rpm</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1.3 检查mysql源是否安装成功</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum repolist enabled | grep "mysql.*-community.*"</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190430_check_mysql_repolist.png" alt="image"></p>
+<p>看到上图所示表示安装成功。</p>
+<ul>
+<li>1.4 修改默认安装的mysql版本</li>
+</ul>
+<p>当前文件的mysql版本为5.6，若要改为5.7，则将5.7的enabled改为1，将5.6的enabled改为0即可。</p>
+<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190430_modify_mysql_version.png" alt="image">  </p>
+<h3 id="2-安装MySQL"><a href="#2-安装MySQL" class="headerlink" title="2.安装MySQL"></a>2.安装MySQL</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql-community-server</span><br></pre></td></tr></table></figure>
+<h3 id="3-启动MySQL"><a href="#3-启动MySQL" class="headerlink" title="3.启动MySQL"></a>3.启动MySQL</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 启动MySQL</span><br><span class="line">systemctl start mysqld</span><br><span class="line"><span class="meta">#</span> 查看MySQL启动状态</span><br><span class="line">systemctl status mysqld</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190430_start_mysql.png" alt="image"></p>
+<h3 id="4-修改root用户密码"><a href="#4-修改root用户密码" class="headerlink" title="4.修改root用户密码"></a>4.修改root用户密码</h3><ul>
+<li>4.1 直接输入mysql就可以进入MySQL了</li>
+<li>4.2 修改root用户密码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set password = password(&apos;root&apos;);</span><br></pre></td></tr></table></figure>
+<h3 id="5-开启用户远程访问"><a href="#5-开启用户远程访问" class="headerlink" title="5.开启用户远程访问"></a>5.开启用户远程访问</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT ALL PRIVILEGES ON *.*TO &apos;root&apos;@&apos;%&apos; IDENTIFIED BY &apos;root&apos; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+<h3 id="6-开放3306端口"><a href="#6-开放3306端口" class="headerlink" title="6.开放3306端口"></a>6.开放3306端口</h3><p>开启端口后，可以在外部使用mysql连接工具连接，具体操作如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看防火墙状态</span><br><span class="line">firewall-cmd --state</span><br><span class="line"><span class="meta">#</span> 在running状态下，向firewall添加需要开放的端口</span><br><span class="line">firewall-cmd --permanent --zone=public --add-port=3306/tcp</span><br><span class="line"><span class="meta">#</span> 加载配置，使得修改有效</span><br><span class="line">firewall-cmd --reload</span><br><span class="line"><span class="meta">#</span> 查看开启的端口，出现3306/tcp则开启正确</span><br><span class="line">firewall-cmd --permanent --zone=public --list-ports</span><br></pre></td></tr></table></figure>
+<p>参考链接:</p>
+<ul>
+<li><p><a href="https://blog.csdn.net/xyang81/article/details/51759200" target="_blank" rel="noopener">MySQL5.7安装与配置（YUM）</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/chensongmol/article/details/78772027" target="_blank" rel="noopener">CentOS之Mysql已经开放了3306端口，外网访问不上</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/yyhh/p/5062153.html#P02" target="_blank" rel="noopener">Linux下安装MySQL</a></p>
+</li>
+</ul>
+
+        
+
+        
+    </section>
+</article>
+
+        </div>
+      
     
       
         <div class="post-wrapper">
@@ -254,11 +346,11 @@
 <p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190427_open_port.png" alt="image"></p>
 <p>参考链接:</p>
 <ul>
-<li><p><a href="https://segmentfault.com/a/1190000015391470" target="_blank" rel="noopener">CentOS安装Tomcat</a></p>
+<li><p><a href="https://segmentfault.com/a/1190000012893316" target="_blank" rel="noopener">centos7.4安装jdk1.8及tomcat8.5</a></p>
 </li>
 <li><p><a href="https://www.cnblogs.com/lrx931028/p/9140085.html" target="_blank" rel="noopener">CentOS7上解决tomcat不能被外部浏览访问</a></p>
 </li>
-<li><p><a href="https://buzheng.org/linux/how-to-install-tomcat-8-5-on-centos-7.html" target="_blank" rel="noopener">如何在CentOS7上安装Tomcat8.5</a></p>
+<li><p><a href="https://www.zhuqiming.cn/install-tomcat8.html" target="_blank" rel="noopener">CentOS 7 安装 Tomcat 8 的方法</a></p>
 </li>
 </ul>
 
@@ -434,14 +526,14 @@
   <section class="category">
     
 <header class="pure">
-  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;所有分類</div>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Categories</div>
   
 </header>
 
     <div class="content pure">
       <ul class="entry">
         
-          <li><a class="flat-box" title="/categories/CentOS/" href="/categories/CentOS/"><div class="name">CentOS</div><div class="badge">(2)</div></a></li>
+          <li><a class="flat-box" title="/categories/CentOS/" href="/categories/CentOS/"><div class="name">CentOS</div><div class="badge">(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/MySQL必知必会笔记/" href="/categories/MySQL必知必会笔记/"><div class="name">MySQL必知必会笔记</div><div class="badge">(2)</div></a></li>
         
@@ -523,9 +615,9 @@
     <footer id="footer" class="clearfix">
   
   <br>
-  <div><p>博客內容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh_TW">姓名標示-非商業性-相同方式分享 4.0 國際 (CC BY-NC-SA 4.0) 協議</a></p>
+  <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
 </div>
-  <div>本站使用 <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a> 作為主題，總訪問量為 <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span> 次。
+  <div>Use <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a> as theme, total visits <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span> times. 
   </div>
 </footer>
 

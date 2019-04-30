@@ -61,13 +61,13 @@
   					
   						<li>
 								<a id="home" class="nav flat-box" href="/">
-									<i class="fas fa-home fa-fw"></i>&nbsp;主頁
+									<i class="fas fa-home fa-fw"></i>&nbsp;Home
 								</a>
 							</li>
       			
   						<li>
 								<a id="archives" class="nav flat-box" href="/archives/">
-									<i class="fas fa-archive fa-fw"></i>&nbsp;歸檔
+									<i class="fas fa-archive fa-fw"></i>&nbsp;Archives
 								</a>
 							</li>
       			
@@ -78,7 +78,7 @@
 			
 				<div class="m_search">
 					<form name="searchform" class="form u-search-form">
-						<input type="text" class="input u-search-input" placeholder="搜尋">
+						<input type="text" class="input u-search-input" placeholder="Search">
 						<span class="icon"><i class="fas fa-search fa-fw"></i></span>
 					</form>
 				</div>
@@ -108,13 +108,13 @@
               
                   <li>
 										<a id="home" class="nav flat-box" href="/">
-											<i class="fas fa-home fa-fw"></i>&nbsp;主頁
+											<i class="fas fa-home fa-fw"></i>&nbsp;Home
 										</a>
                   </li>
               
                   <li>
 										<a id="archives" class="nav flat-box" href="/archives/">
-											<i class="fas fa-archive fa-fw"></i>&nbsp;歸檔
+											<i class="fas fa-archive fa-fw"></i>&nbsp;Archives
 										</a>
                   </li>
               
@@ -157,7 +157,99 @@
       
         
       
+        
+      
     
+    
+      
+        <div class="post-wrapper">
+          <article class="post reveal ">
+    
+<section class="meta">
+  
+  <div class="meta" id="header-meta">
+    
+      <h2 class="title">
+          <a href="/2019/04/30/CentOS7安装MySQL/">
+              
+                  CentOS7安装MySQL
+              
+          </a>
+      </h2>
+    
+
+    
+      <time class="metatag time">
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-04-30
+      </time>
+    
+
+    
+      
+    
+    <div class="metatag cats">
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/CentOS/">CentOS</a>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </div>
+</section>
+
+    <section class="article typo">
+        <h3 id="1-配置YUM源"><a href="#1-配置YUM源" class="headerlink" title="1.配置YUM源"></a>1.配置YUM源</h3><ul>
+<li>1.1 下载YUM源rpm安装包</li>
+</ul>
+<p>在MySQL官网中下载YUM源rpm安装包：<a href="http://dev.mysql.com/downloads/repo/yum/" target="_blank" rel="noopener">http://dev.mysql.com/downloads/repo/yum/</a></p>
+<ul>
+<li>1.2 安装mysql源</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum localinstall mysql80-community-release-el7-3.noarch.rpm</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1.3 检查mysql源是否安装成功</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum repolist enabled | grep "mysql.*-community.*"</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190430_check_mysql_repolist.png" alt="image"></p>
+<p>看到上图所示表示安装成功。</p>
+<ul>
+<li>1.4 修改默认安装的mysql版本</li>
+</ul>
+<p>当前文件的mysql版本为5.6，若要改为5.7，则将5.7的enabled改为1，将5.6的enabled改为0即可。</p>
+<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190430_modify_mysql_version.png" alt="image">  </p>
+<h3 id="2-安装MySQL"><a href="#2-安装MySQL" class="headerlink" title="2.安装MySQL"></a>2.安装MySQL</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql-community-server</span><br></pre></td></tr></table></figure>
+<h3 id="3-启动MySQL"><a href="#3-启动MySQL" class="headerlink" title="3.启动MySQL"></a>3.启动MySQL</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 启动MySQL</span><br><span class="line">systemctl start mysqld</span><br><span class="line"><span class="meta">#</span> 查看MySQL启动状态</span><br><span class="line">systemctl status mysqld</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190430_start_mysql.png" alt="image"></p>
+<h3 id="4-修改root用户密码"><a href="#4-修改root用户密码" class="headerlink" title="4.修改root用户密码"></a>4.修改root用户密码</h3><ul>
+<li>4.1 直接输入mysql就可以进入MySQL了</li>
+<li>4.2 修改root用户密码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set password = password(&apos;root&apos;);</span><br></pre></td></tr></table></figure>
+<h3 id="5-开启用户远程访问"><a href="#5-开启用户远程访问" class="headerlink" title="5.开启用户远程访问"></a>5.开启用户远程访问</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT ALL PRIVILEGES ON *.*TO &apos;root&apos;@&apos;%&apos; IDENTIFIED BY &apos;root&apos; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+<h3 id="6-开放3306端口"><a href="#6-开放3306端口" class="headerlink" title="6.开放3306端口"></a>6.开放3306端口</h3><p>开启端口后，可以在外部使用mysql连接工具连接，具体操作如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看防火墙状态</span><br><span class="line">firewall-cmd --state</span><br><span class="line"><span class="meta">#</span> 在running状态下，向firewall添加需要开放的端口</span><br><span class="line">firewall-cmd --permanent --zone=public --add-port=3306/tcp</span><br><span class="line"><span class="meta">#</span> 加载配置，使得修改有效</span><br><span class="line">firewall-cmd --reload</span><br><span class="line"><span class="meta">#</span> 查看开启的端口，出现3306/tcp则开启正确</span><br><span class="line">firewall-cmd --permanent --zone=public --list-ports</span><br></pre></td></tr></table></figure>
+<p>参考链接:</p>
+<ul>
+<li><p><a href="https://blog.csdn.net/xyang81/article/details/51759200" target="_blank" rel="noopener">MySQL5.7安装与配置（YUM）</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/chensongmol/article/details/78772027" target="_blank" rel="noopener">CentOS之Mysql已经开放了3306端口，外网访问不上</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/yyhh/p/5062153.html#P02" target="_blank" rel="noopener">Linux下安装MySQL</a></p>
+</li>
+</ul>
+
+        
+
+        
+    </section>
+</article>
+
+        </div>
+      
     
       
         <div class="post-wrapper">
@@ -249,11 +341,11 @@
 <p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190427_open_port.png" alt="image"></p>
 <p>参考链接:</p>
 <ul>
-<li><p><a href="https://segmentfault.com/a/1190000015391470" target="_blank" rel="noopener">CentOS安装Tomcat</a></p>
+<li><p><a href="https://segmentfault.com/a/1190000012893316" target="_blank" rel="noopener">centos7.4安装jdk1.8及tomcat8.5</a></p>
 </li>
 <li><p><a href="https://www.cnblogs.com/lrx931028/p/9140085.html" target="_blank" rel="noopener">CentOS7上解决tomcat不能被外部浏览访问</a></p>
 </li>
-<li><p><a href="https://buzheng.org/linux/how-to-install-tomcat-8-5-on-centos-7.html" target="_blank" rel="noopener">如何在CentOS7上安装Tomcat8.5</a></p>
+<li><p><a href="https://www.zhuqiming.cn/install-tomcat8.html" target="_blank" rel="noopener">CentOS 7 安装 Tomcat 8 的方法</a></p>
 </li>
 </ul>
 
@@ -1261,303 +1353,6 @@
         </div>
       
     
-      
-        <div class="post-wrapper">
-          <article class="post reveal ">
-    
-<section class="meta">
-  
-  <div class="meta" id="header-meta">
-    
-      <h2 class="title">
-          <a href="/2018/05/22/第九章-用正则表达式进行搜索/">
-              
-                  第九章-用正则表达式进行搜索
-              
-          </a>
-      </h2>
-    
-
-    
-      <time class="metatag time">
-        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2018-05-22
-      </time>
-    
-
-    
-      
-    
-    <div class="metatag cats">
-        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/MySQL必知必会笔记/">MySQL必知必会笔记</a>
-    </div>
-
-
-    
-
-    
-
-    
-
-  </div>
-</section>
-
-    <section class="article typo">
-        <h3 id="9-1-正则表达式介绍"><a href="#9-1-正则表达式介绍" class="headerlink" title="9.1 正则表达式介绍"></a>9.1 正则表达式介绍</h3><blockquote>
-<p>正则表达式是用来匹配文本的特殊的串（字符集合）</p>
-</blockquote>
-<h3 id="9-2-使用MySQL正则表达式"><a href="#9-2-使用MySQL正则表达式" class="headerlink" title="9.2 使用MySQL正则表达式"></a>9.2 使用MySQL正则表达式</h3><blockquote>
-<p>正则表达式的作用是匹配文本，将一个模式（正则表达式）与一个文本串进行比较。。MySQL用WHERE子句对正则表达式提供了初步的支持，允许你指定正则表达式，过滤SELECT检索出的数据。</p>
-</blockquote>
-<h4 id="9-2-1-基本字符匹配"><a href="#9-2-1-基本字符匹配" class="headerlink" title="9.2.1 基本字符匹配"></a>9.2.1 基本字符匹配</h4><ul>
-<li>检索列prod_name包含文本1000的所有行</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'1000'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<h4 id="9-2-2-进行OR匹配"><a href="#9-2-2-进行OR匹配" class="headerlink" title="9.2.2 进行OR匹配"></a>9.2.2 进行OR匹配</h4><blockquote>
-<p>为搜索两个串之一（或者为这个串，或者为另一个串），使用|;</p>
-<p>|为正则表达式的OR操作符;</p>
-<p>使用|从功能上类似于在SELECT语句中使用OR语句，多个OR条件可并入单个正则表达式。</p>
-</blockquote>
-<ul>
-<li>检索列prod_name包含1000或2000的所有行</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'1000|2000'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<h4 id="9-2-3-匹配几个字符之一"><a href="#9-2-3-匹配几个字符之一" class="headerlink" title="9.2.3 匹配几个字符之一"></a>9.2.3 匹配几个字符之一</h4><blockquote>
-<p>可通过指定一组用[和]括起来的字符来完成匹配特定的字符</p>
-</blockquote>
-<ul>
-<li>[]是另一种形式的OR语句。正则表达式[123] Ton为[1|2|3] Ton的缩写，也可以使用后者</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'[123] ton'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">prod_id</th>
-<th style="text-align:center">prod_name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">ANV02</td>
-<td style="text-align:center">1 ton anvil</td>
-</tr>
-<tr>
-<td style="text-align:center">ANV03</td>
-<td style="text-align:center">2 ton anvil</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>除非把字符|括在一个集合中，否则它将应用于整个串</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'1|2|3 ton'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>prod_name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1 ton anvil</td>
-</tr>
-<tr>
-<td>2 ton anvil</td>
-</tr>
-<tr>
-<td>JetPack 1000</td>
-</tr>
-<tr>
-<td>JetPack 2000</td>
-</tr>
-<tr>
-<td>TNT (1 stick)</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>字符集合也可以被否定，即，它们将匹配除指定字符外的任何东西。为否定一个字符集，在集合的开始处放置一个^即可。[^123]却匹配除这些字符外的任何东西。</li>
-</ul>
-<h4 id="9-2-4-匹配范围"><a href="#9-2-4-匹配范围" class="headerlink" title="9.2.4 匹配范围"></a>9.2.4 匹配范围</h4><blockquote>
-<p>集合可用来定义要匹配的一个或多个字符。</p>
-<p>下面的集合将匹配数字0到9：[0123456789]，等同于[0-9]；[a-z]匹配任意字母字符。</p>
-<ul>
-<li>例子</li>
-</ul>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'[1-5] ton'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<h4 id="9-2-5-匹配特殊字符"><a href="#9-2-5-匹配特殊字符" class="headerlink" title="9.2.5 匹配特殊字符"></a>9.2.5 匹配特殊字符</h4><blockquote>
-<p>正则表达式语言由具有特定含义的特殊字符构成。匹配这些字符.，[]，|和-应该怎么办</p>
-<p>为了匹配特殊字符，必须用\为前导。\-表示查找-，\.表示查找.</p>
-<p>正则表达式内具有特殊意义的所有字符都必须以这种方式转义。这包括.、|、[]以及迄今为止使用过的其他特殊字符。</p>
-</blockquote>
-<ul>
-<li>找出包含.字符的值</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> vend_name</span><br><span class="line"><span class="keyword">FROM</span> vendors</span><br><span class="line"><span class="keyword">WHERE</span> vend_name REGEXP <span class="string">'.'</span>;</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>vend_name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Anvils R Us</td>
-</tr>
-<tr>
-<td>LT Supplies</td>
-</tr>
-<tr>
-<td>ACME</td>
-</tr>
-<tr>
-<td>Furball Inc.</td>
-</tr>
-<tr>
-<td>Jet Set</td>
-</tr>
-<tr>
-<td>Jouets Et Ours</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> vend_name</span><br><span class="line"><span class="keyword">FROM</span> vendors</span><br><span class="line"><span class="keyword">WHERE</span> vend_name REGEXP <span class="string">'\\.'</span>;</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>vend_name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Furball Inc.</td>
-</tr>
-</tbody>
-</table>
-<h4 id="9-2-6-匹配字符类"><a href="#9-2-6-匹配字符类" class="headerlink" title="9.2.6 匹配字符类"></a>9.2.6 匹配字符类</h4><blockquote>
-<p>预定义的字符集，称为字符类（character class）。(见MySQL必知必会p58)</p>
-</blockquote>
-<h4 id="9-2-7-匹配多个实例"><a href="#9-2-7-匹配多个实例" class="headerlink" title="9.2.7 匹配多个实例"></a>9.2.7 匹配多个实例</h4><ul>
-<li>表9-3 重复元字符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">元字符</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">*</td>
-<td style="text-align:center">0个或多个匹配</td>
-</tr>
-<tr>
-<td style="text-align:center">+</td>
-<td style="text-align:center">1个或多个匹配(等于{1,})</td>
-</tr>
-<tr>
-<td style="text-align:center">?</td>
-<td style="text-align:center">0个或1个匹配(等于{0,1})</td>
-</tr>
-<tr>
-<td style="text-align:center">{n}</td>
-<td style="text-align:center">指定数目的匹配</td>
-</tr>
-<tr>
-<td style="text-align:center">{n,}</td>
-<td style="text-align:center">不少于指定数目的匹配</td>
-</tr>
-<tr>
-<td style="text-align:center">{n,m}</td>
-<td style="text-align:center">匹配数目的范围(m不超过255)</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>[0-9]匹配任意数字（这个例子中为1和5），sticks?匹配stick和sticks（s后的?使s可选，因为?匹配它前面的任何字符的0次或1次出现），\)匹配)。</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'\\([1-5] sticks?\\)'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>prod_name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>TNT (1 stick)</td>
-</tr>
-<tr>
-<td>TNT (5 sticks)</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>[:digit:]匹配任意数字，{4}确切地要求它前面的字符（任意数字）出现4次，所以[[:digit:]]{4}匹配连在一起的任意4位数字。</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'[[:digit:]]&#123;4&#125;'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<h4 id="9-2-8-定位符"><a href="#9-2-8-定位符" class="headerlink" title="9.2.8 定位符"></a>9.2.8 定位符</h4><ul>
-<li>表9-4 定位元字符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">元字符</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">^</td>
-<td style="text-align:center">文本的开始</td>
-</tr>
-<tr>
-<td style="text-align:center">$</td>
-<td style="text-align:center">文本的结束</td>
-</tr>
-<tr>
-<td style="text-align:center">[[:&lt;:]]</td>
-<td style="text-align:center">词的开始</td>
-</tr>
-<tr>
-<td style="text-align:center">[[:&gt;:]]</td>
-<td style="text-align:center">词的结束</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>找出以一个数（包括以小数点开始的数）开始的所有产品</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'^[0-9\\.]'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>prod_name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>.5 ton anvil</td>
-</tr>
-<tr>
-<td>1 ton anvil</td>
-</tr>
-<tr>
-<td>2 ton anvil</td>
-</tr>
-</tbody>
-</table>
-
-        
-
-        
-    </section>
-</article>
-
-        </div>
-      
-    
 </section>
 
 
@@ -1571,7 +1366,7 @@
             
                 <a class="next" rel="next" href="/page/2/">
                     <section class="post next">
-                        &nbsp;下一頁&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        &nbsp;Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
                     </section>
                 </a>
             
@@ -1648,14 +1443,14 @@
   <section class="category">
     
 <header class="pure">
-  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;所有分類</div>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Categories</div>
   
 </header>
 
     <div class="content pure">
       <ul class="entry">
         
-          <li><a class="flat-box" title="/categories/CentOS/" href="/categories/CentOS/"><div class="name">CentOS</div><div class="badge">(2)</div></a></li>
+          <li><a class="flat-box" title="/categories/CentOS/" href="/categories/CentOS/"><div class="name">CentOS</div><div class="badge">(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/MySQL必知必会笔记/" href="/categories/MySQL必知必会笔记/"><div class="name">MySQL必知必会笔记</div><div class="badge">(2)</div></a></li>
         
@@ -1737,9 +1532,9 @@
     <footer id="footer" class="clearfix">
   
   <br>
-  <div><p>博客內容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh_TW">姓名標示-非商業性-相同方式分享 4.0 國際 (CC BY-NC-SA 4.0) 協議</a></p>
+  <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
 </div>
-  <div>本站使用 <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a> 作為主題，總訪問量為 <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span> 次。
+  <div>Use <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a> as theme, total visits <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span> times. 
   </div>
 </footer>
 
