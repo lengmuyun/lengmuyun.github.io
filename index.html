@@ -161,7 +161,85 @@
       
         
       
+        
+      
     
+    
+      
+        <div class="post-wrapper">
+          <article class="post reveal ">
+    
+<section class="meta">
+  
+  <div class="meta" id="header-meta">
+    
+      <h2 class="title">
+          <a href="/2020/05/19/SpringBoot使用validation校验参数/">
+              
+                  SpringBoot使用validation校验参数
+              
+          </a>
+      </h2>
+    
+
+    
+      <time class="metatag time">
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2020-05-19
+      </time>
+    
+
+    
+      
+    
+    <div class="metatag cats">
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/Spring-Boot/">Spring Boot</a>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </div>
+</section>
+
+    <section class="article typo">
+        <blockquote>
+<p>当涉及校验用户输入时，如果由开发人员编码校验数据，那么验证数据的代码和业务逻辑代码会耦合在一起。Spring Framework 4.0支持Bean Validation 1.0(JSR-303)和Bean Validation 1.1(JSR-349)，也将其改写成了Spring的Validator接口。使用Spring Validation可以方便的进行数据校验。</p>
+</blockquote>
+<h3 id="1-引入依赖"><a href="#1-引入依赖" class="headerlink" title="1.引入依赖"></a>1.引入依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-validation<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-实体类中添加校验注解"><a href="#2-实体类中添加校验注解" class="headerlink" title="2.实体类中添加校验注解"></a>2.实体类中添加校验注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> io.github.lmy.springbootinaction.request;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.github.lmy.springbootinaction.entity.User;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> org.hibernate.validator.constraints.Range;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.validation.constraints.Email;</span><br><span class="line"><span class="keyword">import</span> javax.validation.constraints.NotBlank;</span><br><span class="line"><span class="keyword">import</span> javax.validation.constraints.NotNull;</span><br><span class="line"><span class="keyword">import</span> javax.validation.constraints.Pattern;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserRequest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotBlank</span>(message = <span class="string">"用户名不能为空"</span>)</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Range</span>(min = <span class="number">0</span>, max = <span class="number">150</span>, message = <span class="string">"年龄格式不正确"</span>)</span><br><span class="line">    <span class="meta">@NotNull</span></span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Email</span>(message = <span class="string">"邮箱格式不正确"</span>)</span><br><span class="line">    <span class="meta">@NotBlank</span>(message = <span class="string">"邮箱不能为空"</span>)</span><br><span class="line">    <span class="keyword">private</span> String email;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pattern</span>(regexp = <span class="string">"^1(3|4|5|7|8)\\d&#123;9&#125;$"</span>, message = <span class="string">"手机号码格式不正确"</span>)</span><br><span class="line">    <span class="meta">@NotBlank</span>(message = <span class="string">"手机号不能为空"</span>)</span><br><span class="line">    <span class="keyword">private</span> String phone;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotBlank</span>(message = <span class="string">"密码不能为空"</span>)</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-在Controller层校验数据"><a href="#3-在Controller层校验数据" class="headerlink" title="3.在Controller层校验数据"></a>3.在Controller层校验数据</h3><blockquote>
+<p>对需要校验的参数添加注解@Valid或@Validated，如果需要获取校验的信息，可以在被校验参数后面添加一个BindingResult参数，Spring会将校验的信息填充到该校验参数后面的BindingResult中。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> io.github.lmy.springbootinaction.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.github.lmy.springbootinaction.request.LoginRequest;</span><br><span class="line"><span class="keyword">import</span> io.github.lmy.springbootinaction.request.UserRequest;</span><br><span class="line"><span class="keyword">import</span> io.github.lmy.springbootinaction.service.UserService;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.validation.BindingResult;</span><br><span class="line"><span class="keyword">import</span> org.springframework.validation.FieldError;</span><br><span class="line"><span class="keyword">import</span> org.springframework.validation.annotation.Validated;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PostMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestBody;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.validation.Valid;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"/register"</span>)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">register</span><span class="params">(@Valid @RequestBody UserRequest userRequest, BindingResult result)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (result.hasErrors()) &#123;</span><br><span class="line">            <span class="keyword">for</span> (FieldError fieldError : result.getFieldErrors()) &#123;</span><br><span class="line">                log.info(<span class="string">"field: &#123;&#125;, message: &#123;&#125;"</span>, fieldError.getField(), fieldError.getDefaultMessage());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">boolean</span> success = userService.register(userRequest);</span><br><span class="line">        <span class="keyword">return</span> success;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"/login"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">login</span><span class="params">(@Validated @RequestBody LoginRequest loginRequest)</span> </span>&#123;</span><br><span class="line">        userService.login(loginRequest);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"index"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-校验失败统一处理"><a href="#4-校验失败统一处理" class="headerlink" title="4.校验失败统一处理"></a>4.校验失败统一处理</h3><blockquote>
+<p>如果校验参数后没有BindingResult参数，且校验参数校验失败，则会抛出<em>MethodArgumentNotValidException</em> 异常。可以使用 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ExceptionHandler.html" target="_blank" rel="noopener"><em>@ExceptionHandler</em></a> 注解统一处理参数校验失败。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> io.github.lmy.springbootinaction.global;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.http.HttpStatus;</span><br><span class="line"><span class="keyword">import</span> org.springframework.validation.FieldError;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.MethodArgumentNotValidException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ExceptionHandler;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseStatus;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestControllerAdvice;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Collectors;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlobalExceptionHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ResponseStatus</span>(HttpStatus.BAD_REQUEST)</span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(MethodArgumentNotValidException.class)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, String&gt; <span class="title">handleValidationExceptions</span><span class="params">(MethodArgumentNotValidException ex)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, String&gt; result = ex.getBindingResult()</span><br><span class="line">                .getFieldErrors()</span><br><span class="line">                .stream()</span><br><span class="line">                .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考链接:</p>
+<ul>
+<li><a href="https://www.cnkirito.moe/spring-validation/" target="_blank" rel="noopener">使用 spring validation 完成数据后端校验</a></li>
+<li><a href="https://www.cnblogs.com/gdufs/p/10964771.html" target="_blank" rel="noopener">SpringBoot 参数校验</a></li>
+<li><a href="https://www.baeldung.com/spring-boot-bean-validation" target="_blank" rel="noopener">Validation in Spring Boot</a></li>
+</ul>
+
+        
+
+        
+            <div class="full-width auto-padding tags">
+                
+                    <a href="/tags/Spring-Boot/"><i class="fas fa-hashtag fa-fw"></i>Spring Boot</a>
+                
+            </div>
+        
+    </section>
+</article>
+
+        </div>
+      
     
       
         <div class="post-wrapper">
@@ -1284,78 +1362,6 @@
         </div>
       
     
-      
-        <div class="post-wrapper">
-          <article class="post reveal ">
-    
-<section class="meta">
-  
-  <div class="meta" id="header-meta">
-    
-      <h2 class="title">
-          <a href="/2019/01/06/TCP三次握手四次挥手/">
-              
-                  TCP三次握手四次挥手
-              
-          </a>
-      </h2>
-    
-
-    
-      <time class="metatag time">
-        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-01-06
-      </time>
-    
-
-    
-      
-
-    
-
-    
-
-    
-
-  </div>
-</section>
-
-    <section class="article typo">
-        <h3 id="1-TCP报文首部"><a href="#1-TCP报文首部" class="headerlink" title="1.TCP报文首部"></a>1.TCP报文首部</h3><blockquote>
-<p>TCP报文首部格式如下图所示</p>
-</blockquote>
-<p><img src="https://ws1.sinaimg.cn/large/83c51503ly1fyx5sxvwnlj20i80chwf1.jpg" alt="image"></p>
-<ul>
-<li>序号，占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。例如，一段报文的序号字段值是 301 ，而携带的数据共有100字段，显然下一个报文段（如果还有的话）的数据序号应该从401开始；</li>
-<li>确认号，占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。例如，B收到了A发送过来的报文，其序列号字段是501，而数据长度是200字节，这表明B正确的收到了A发送的到序号700为止的数据。因此，B期望收到A的下一个数据序号是701，于是B在发送给A的确认报文段中把确认号置为701；</li>
-<li>确认ACK，仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1；</li>
-<li>同步SYN，在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1；</li>
-<li>终止FIN，用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放；</li>
-</ul>
-<h3 id="2-TCP三次握手"><a href="#2-TCP三次握手" class="headerlink" title="2.TCP三次握手"></a>2.TCP三次握手</h3><ol>
-<li>TCP客户进程向服务器发出连接请求报文，报文首部中的同步位SYN=1，同时选择一个初始序列号 seq=x ，此时，TCP客户端进程进入了 <strong>SYN-SENT（同步已发送状态）状态</strong>。</li>
-<li>TCP服务器收到请求报文后，如果同意连接，则发出确认报文。确认报文中应该 ACK=1，SYN=1，确认号是ack=x+1，同时也要为自己初始化一个序列号 seq=y，此时，TCP服务器进程进入了 <strong>SYN-RCVD（同步收到）状态</strong>。</li>
-<li>TCP客户进程收到确认后，还要向服务器给出确认。确认报文的ACK=1，ack=y+1，自己的序列号seq=x+1，此时，TCP连接建立，客户端进入 <strong>ESTABLISHED（已建立连接）状态</strong>。当服务器收到客户端的确认后也进入 <strong>ESTABLISHED状态</strong>，此后双方就可以开始通信了。</li>
-</ol>
-<p><img src="https://ws1.sinaimg.cn/large/83c51503ly1fyx6b5ncppj20uz0en0te.jpg" alt="image"></p>
-<h3 id="3-TCP四次挥手"><a href="#3-TCP四次挥手" class="headerlink" title="3.TCP四次挥手"></a>3.TCP四次挥手</h3><ol>
-<li>客户端进程发出连接释放报文，并且停止发送数据。释放数据报文首部，FIN=1，其序列号为seq=u（等于前面已经传送过来的数据的最后一个字节的序号加1），此时，客户端进入<strong>FIN-WAIT-1（终止等待1）状态</strong>。</li>
-<li>服务器收到连接释放报文，发出确认报文，ACK=1，ack=u+1，并且带上自己的序列号seq=v，此时，服务端就进入了CLOSE-WAIT（关闭等待）状态。客户端收到服务器的确认请求后，此时，客户端就进入<strong>FIN-WAIT-2（终止等待2）状态</strong>，等待服务器发送连接释放报文</li>
-<li>服务器将最后的数据发送完毕后，就向客户端发送连接释放报文，FIN=1，ack=u+1，由于在半关闭状态，服务器很可能又发送了一些数据，假定此时的序列号为seq=w，此时，服务器就进入了<strong>LAST-ACK（最后确认）状态</strong>，等待客户端的确认。</li>
-<li>客户端收到服务器的连接释放报文后，必须发出确认，ACK=1，ack=w+1，而自己的序列号是seq=u+1，此时，客户端就进入了<strong>TIME-WAIT（时间等待）状态</strong>。注意此时TCP连接还没有释放，必须经过2∗∗MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入<strong>CLOSED</strong>状态。服务器只要收到了客户端发出的确认，立即进入<strong>CLOSED</strong>状态。</li>
-</ol>
-<p><img src="https://ws1.sinaimg.cn/large/83c51503ly1fyx71lt4esj20tm0j0my8.jpg" alt="image"></p>
-<p>参考链接:</p>
-<p><a href="https://blog.csdn.net/qzcsu/article/details/72861891" target="_blank" rel="noopener">https://blog.csdn.net/qzcsu/article/details/72861891</a></p>
-
-        
-
-        
-    </section>
-</article>
-
-        </div>
-      
-    
 </section>
 
 
@@ -1459,6 +1465,8 @@
         
           <li><a class="flat-box" title="/categories/MySQL笔记/" href="/categories/MySQL笔记/"><div class="name">MySQL笔记</div><div class="badge">(5)</div></a></li>
         
+          <li><a class="flat-box" title="/categories/Spring-Boot/" href="/categories/Spring-Boot/"><div class="name">Spring Boot</div><div class="badge">(1)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/java/" href="/categories/java/"><div class="name">java</div><div class="badge">(1)</div></a></li>
         
           <li><a class="flat-box" title="/categories/深入理解Java虚拟机笔记/" href="/categories/深入理解Java虚拟机笔记/"><div class="name">深入理解Java虚拟机笔记</div><div class="badge">(1)</div></a></li>
@@ -1475,6 +1483,18 @@
       
       
         
+  <section class="tagcloud">
+    
+<header class="pure">
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+</header>
+
+    <div class="content pure">
+      <a href="/tags/Spring-Boot/" style="font-size: 14px; color: #999">Spring Boot</a>
+    </div>
+  </section>
+
 
       
     
