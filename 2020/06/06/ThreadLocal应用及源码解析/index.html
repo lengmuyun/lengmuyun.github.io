@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>MySQL操作数据表的记录 | lengmuyun&#39;s Blog</title>
+  <title>ThreadLocal应用及源码解析 | lengmuyun&#39;s Blog</title>
   
   
 
@@ -135,23 +135,18 @@
   <div class="meta" id="header-meta">
     
       
-          <h1 class="title">MySQL操作数据表的记录</h1>
+          <h1 class="title">ThreadLocal应用及源码解析</h1>
       
     
 
     
       <time class="metatag time">
-        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-03-30
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2020-06-06
       </time>
     
 
     
       
-    
-    <div class="metatag cats">
-        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/MySQL笔记/">MySQL笔记</a>
-    </div>
-
 
     
 
@@ -171,58 +166,27 @@
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
         <blockquote>
-<p>INSERT</p>
+<p>类<code>ThreadLocal</code>提供线程本地变量。它与普通变量的区别在于，在不同的线程访问<code>ThreadLocal</code>(通过<code>get</code>或<code>set</code>方法)拥有自己的独立副本。<code>ThreadLocal</code>实例一般用<code>private static</code>修饰。</p>
 </blockquote>
-<ul>
-<li>标准插入语法</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> [<span class="keyword">INTO</span>] tbl_name [(col_name,...)] &#123;<span class="keyword">VALUES</span>|<span class="keyword">VALUE</span>&#125; (&#123;expr|<span class="keyword">DEFAULT</span>&#125;,...),(...),...</span><br></pre></td></tr></table></figure>
-<ul>
-<li>可以使用子查询，但是不能插入多条记录</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> [<span class="keyword">INTO</span>] tbl_name <span class="keyword">SET</span> col_name=&#123;expr|<span class="keyword">DEFAULT</span>&#125;,...</span><br></pre></td></tr></table></figure>
-<ul>
-<li>可以将查询结果插入到指定数据表</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> [<span class="keyword">INTO</span>] tbl_name [(col_name,...)] <span class="keyword">SELECT</span> ...</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>UPDATE</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> [<span class="keyword">LOW_PRIORITY</span>] [<span class="keyword">IGNORE</span>] table_reference <span class="keyword">SET</span> col_name1=&#123;expr1|<span class="keyword">DEFAULT</span>&#125; [,col_name2=&#123;expr2|<span class="keyword">DEFAULT</span>&#125;] ... [<span class="keyword">WHERE</span> where_condition]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>DELETE</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DELETE FROM tbl_name [WHERE where_condition]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>SELECT</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT select_expr [,select_expr ...]</span><br><span class="line">[</span><br><span class="line">    FROM table_references</span><br><span class="line">    [WHERE where_condition]</span><br><span class="line">    [GROUP BY &#123;col_name|position&#125; [ASC|DESC], ...]</span><br><span class="line">    [HAVING where_condition]</span><br><span class="line">    [ORDER BY &#123;col_name|expr|position&#125; [ASC|DESC], ...]</span><br><span class="line">    [LIMIT &#123;[offset,] row_count&#125;|row_count OFFSET offset]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>查询表达式(select_expr)</li>
-</ul>
-<blockquote>
-<p>每一个表达式表示想要的一列，必须有至少一个。</p>
-<p>多个列之间以英文逗号分隔。</p>
-<p>星号(<em>)表示所有列。tbl_name. </em>可以表示命名表的所有列。</p>
-<p>查询表达式可以用[AS] alias_name为其赋予别名。</p>
-<p>别名可用于GROUP BY, ORDER BY或HAVING字句。</p>
-</blockquote>
-<ul>
-<li>WHERE条件表达式</li>
-</ul>
-<blockquote>
-<p>对记录进行过滤，如果没有指定WHERE子句，则显示所有记录。</p>
-<p>在WHERE表达式中，可以使用MySQL支持的函数或运算符。</p>
-</blockquote>
+<h3 id="1-ThreadLocal用法"><a href="#1-ThreadLocal用法" class="headerlink" title="1.ThreadLocal用法"></a>1.ThreadLocal用法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// (1) 创建线程变量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;String&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// (2) 设置线程变量</span></span><br><span class="line">        threadLocal.set(<span class="string">"hello world"</span>);</span><br><span class="line">        <span class="comment">// (3) 启动子线程</span></span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="comment">// (4) 子线程输出变量的值</span></span><br><span class="line">            System.out.println(<span class="string">"thread: "</span> + threadLocal.get());</span><br><span class="line">        &#125;);</span><br><span class="line">        thread.start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// (5) 主线程输出线程变量的值</span></span><br><span class="line">        System.out.println(<span class="string">"main: "</span> + threadLocal.get());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上实例代码运行输出内容为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">main: hello world</span><br><span class="line">thread: null</span><br></pre></td></tr></table></figure>
+<p>代码(2)处设置了主线程的ThreadLocal副本值为hello world，故代码(5)输出为main: hello world;<br>代码(4)处输出子线程中ThreadLocal副本值，因为在子线程中未进行设置，故输出thread: null。</p>
+<h3 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2.源码分析"></a>2.源码分析</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">            T result = (T)e.value;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">        map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> t.threadLocals;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">createMap</span><span class="params">(Thread t, T firstValue)</span> </span>&#123;</span><br><span class="line">    t.threadLocals = <span class="keyword">new</span> ThreadLocalMap(<span class="keyword">this</span>, firstValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-set方法执行流程"><a href="#2-1-set方法执行流程" class="headerlink" title="2.1 set方法执行流程"></a>2.1 set方法执行流程</h4><p><a href="https://imgchr.com/i/tybFgA" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/06/06/tybFgA.png" alt="tybFgA.png"></a></p>
+<h4 id="2-2-get方法执行流程"><a href="#2-2-get方法执行流程" class="headerlink" title="2.2 get方法执行流程"></a>2.2 get方法执行流程</h4><p><img src="http://img3.coin163.com/75/34/6VJvaq.png" alt="image"></p>
 
       </div>
         
           <section class="meta" id="footer-meta">
             
-              <time class="metatag time" itemprop="dateUpdated" datetime="2019-03-30T18:12:01+08:00" content="2019-03-30"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
-                &nbsp;2019-03-30
+              <time class="metatag time" itemprop="dateUpdated" datetime="2020-06-06T13:07:59+08:00" content="2020-06-06"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+                &nbsp;2020-06-06
               </time>
             
+            
+                
+                <div class="metatag tags"><a class="tag" href="/tags/多线程/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;多线程</a></div>
             
             
           </section>
@@ -231,31 +195,22 @@
         
             <div class="prev-next">
                 
-                    <section class="prev">
-                        <span class="art-item-left">
-                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
-                            <h4>
-                                <a href="/2019/04/20/CentOS7安装JDK8/" rel="prev" title="CentOS7安装JDK8">
-                                  
-                                      CentOS7安装JDK8
-                                  
-                                </a>
-                            </h4>
-                            
-                        </span>
-                    </section>
-                
                 
                     <section class="next">
                         <span class="art-item-right" aria-hidden="true">
                             <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/2019/03/24/MySQL约束以及修改数据表/" rel="prev" title="MySQL约束以及修改数据表">
+                                <a href="/2020/05/19/SpringBoot使用validation校验参数/" rel="prev" title="SpringBoot使用validation校验参数">
                                     
-                                        MySQL约束以及修改数据表
+                                        SpringBoot使用validation校验参数
                                     
                                 </a>
                             </h4>
+                            
+                                
+                                <h6 class="tags">
+                                    <a class="tag" href="/tags/Spring-Boot/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Spring Boot</a>
+                                </h6>
                             
                         </span>
                     </section>
@@ -286,13 +241,13 @@
         <h4><i class="fas fa-bookmark fa-fw" aria-hidden="true"></i>&nbsp;Related Posts</h4>
         <ul>
             
+                <li><a href="https://lengmuyun.github.io/2020/05/19/SpringBoot使用validation校验参数/">SpringBoot使用validation校验参数</a></li>
+            
+                <li><a href="https://lengmuyun.github.io/2019/10/09/try-with-resource/">try-with-resource</a></li>
+            
+                <li><a href="https://lengmuyun.github.io/2019/04/30/CentOS7安装MySQL/">CentOS7安装MySQL</a></li>
+            
                 <li><a href="https://lengmuyun.github.io/2019/04/27/CentOS7安装Tomcat/">CentOS7安装Tomcat</a></li>
-            
-                <li><a href="https://lengmuyun.github.io/2019/04/20/CentOS7安装JDK8/">CentOS7安装JDK8</a></li>
-            
-                <li><a href="https://lengmuyun.github.io/2019/03/24/MySQL约束以及修改数据表/">MySQL约束以及修改数据表</a></li>
-            
-                <li><a href="https://lengmuyun.github.io/2019/03/24/MySQL操作数据表与约束/">MySQL操作数据表与约束</a></li>
             
         </ul>
     </div>
@@ -308,7 +263,7 @@
 
 <script>
     window.subData = {
-        title: 'MySQL操作数据表的记录',
+        title: 'ThreadLocal应用及源码解析',
         tools: true
     }
 </script>
@@ -488,6 +443,20 @@
       
       
         
+  <section class="toc-wrapper">
+    
+<header class="pure">
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Table of Contents</div>
+  
+    <div class="wrapper"><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
+  
+</header>
+
+    <div class="content pure">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ThreadLocal用法"><span class="toc-text">1.ThreadLocal用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-源码分析"><span class="toc-text">2.源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-set方法执行流程"><span class="toc-text">2.1 set方法执行流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-get方法执行流程"><span class="toc-text">2.2 get方法执行流程</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
 
       
     

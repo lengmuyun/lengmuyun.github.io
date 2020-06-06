@@ -61,13 +61,13 @@
   					
   						<li>
 								<a id="home" class="nav flat-box" href="/">
-									<i class="fas fa-home fa-fw"></i>&nbsp;主页
+									<i class="fas fa-home fa-fw"></i>&nbsp;Home
 								</a>
 							</li>
       			
   						<li>
 								<a id="archives" class="nav flat-box" href="/archives/">
-									<i class="fas fa-archive fa-fw"></i>&nbsp;归档
+									<i class="fas fa-archive fa-fw"></i>&nbsp;Archives
 								</a>
 							</li>
       			
@@ -78,7 +78,7 @@
 			
 				<div class="m_search">
 					<form name="searchform" class="form u-search-form">
-						<input type="text" class="input u-search-input" placeholder="搜索">
+						<input type="text" class="input u-search-input" placeholder="Search">
 						<span class="icon"><i class="fas fa-search fa-fw"></i></span>
 					</form>
 				</div>
@@ -108,13 +108,13 @@
               
                   <li>
 										<a id="home" class="nav flat-box" href="/">
-											<i class="fas fa-home fa-fw"></i>&nbsp;主页
+											<i class="fas fa-home fa-fw"></i>&nbsp;Home
 										</a>
                   </li>
               
                   <li>
 										<a id="archives" class="nav flat-box" href="/archives/">
-											<i class="fas fa-archive fa-fw"></i>&nbsp;归档
+											<i class="fas fa-archive fa-fw"></i>&nbsp;Archives
 										</a>
                   </li>
               
@@ -130,12 +130,14 @@
         <div class='l_main'>
             
     <script>
-        window.subData= { title:'所有分类 : CentOS'}
+        window.subData= { title:'Categories : CentOS'}
     </script>
 
 
 <section class="post-list">
     
+      
+        
       
         
       
@@ -222,16 +224,16 @@
 <li>1.3 检查mysql源是否安装成功</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum repolist enabled | grep "mysql.*-community.*"</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190430_check_mysql_repolist.png" alt="image"></p>
+<p><img src="https://s1.ax1x.com/2020/06/06/t6ByXn.png" alt="t6ByXn.png"></p>
 <p>看到上图所示表示安装成功。</p>
 <ul>
 <li>1.4 修改默认安装的mysql版本</li>
 </ul>
 <p>当前文件的mysql版本为5.6，若要改为5.7，则将5.7的enabled改为1，将5.6的enabled改为0即可。</p>
-<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190430_modify_mysql_version.png" alt="image">  </p>
+<p><img src="https://s1.ax1x.com/2020/06/06/t6Bcmq.png" alt="t6Bcmq.png">  </p>
 <h3 id="2-安装MySQL"><a href="#2-安装MySQL" class="headerlink" title="2.安装MySQL"></a>2.安装MySQL</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql-community-server</span><br></pre></td></tr></table></figure>
 <h3 id="3-启动MySQL"><a href="#3-启动MySQL" class="headerlink" title="3.启动MySQL"></a>3.启动MySQL</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 启动MySQL</span><br><span class="line">systemctl start mysqld</span><br><span class="line"><span class="meta">#</span> 查看MySQL启动状态</span><br><span class="line">systemctl status mysqld</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190430_start_mysql.png" alt="image"></p>
+<p><img src="https://s1.ax1x.com/2020/06/06/t6Bg00.png" alt="t6Bg00.png"></p>
 <h3 id="4-修改root用户密码"><a href="#4-修改root用户密码" class="headerlink" title="4.修改root用户密码"></a>4.修改root用户密码</h3><ul>
 <li>4.1 直接输入mysql就可以进入MySQL了</li>
 <li>4.2 修改root用户密码</li>
@@ -301,7 +303,7 @@
 
     <section class="article typo">
         <h3 id="1-检查JDK环境"><a href="#1-检查JDK环境" class="headerlink" title="1.检查JDK环境"></a>1.检查JDK环境</h3><p>通过java -version命令检查系统是否安装JDK</p>
-<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190427_view_java_version.png" alt="image"></p>
+<p><img src="https://s1.ax1x.com/2020/06/06/t6raRg.png" alt="t6raRg.png"></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
 <h3 id="2-下载Tomcat及安装"><a href="#2-下载Tomcat及安装" class="headerlink" title="2.下载Tomcat及安装"></a>2.下载Tomcat及安装</h3><ul>
 <li><p>2.1 去<a href="https://tomcat.apache.org/download-90.cgi" target="_blank" rel="noopener">Apache Tomcat官网</a>下载Tomcat9</p>
@@ -316,12 +318,12 @@
 <li>3.1 启动tomcat</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/tomcat-9.0.19/bin/startup.sh</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190427_start_tomcat.png" alt="image"></p>
+<p><img src="https://s1.ax1x.com/2020/06/06/t6rdzQ.png" alt="t6rdzQ.png"></p>
 <ul>
 <li>3.2 查看tomcat进程</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep java</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190427_view_tomcat_process.png" alt=""></p>
+<p><img src="https://s1.ax1x.com/2020/06/06/t6rUJS.png" alt="t6rUJS.png"></p>
 <ul>
 <li>3.3 查看tomcat欢迎页</li>
 </ul>
@@ -346,7 +348,7 @@
 <ul>
 <li>4.5 端口添加完后可以外部浏览器访问</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190427_open_port.png" alt="image"></p>
+<p><img src="https://s1.ax1x.com/2020/06/06/t6r0Mj.png" alt="t6r0Mj.png"></p>
 <p>参考链接:</p>
 <ul>
 <li><p><a href="https://segmentfault.com/a/1190000012893316" target="_blank" rel="noopener">centos7.4安装jdk1.8及tomcat8.5</a></p>
@@ -415,7 +417,7 @@
 <ul>
 <li>在centos系统中执行uname -a指令，系统为64位，下载文件jdk-8u211-linux-x64.tar.gz</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/lengmuyun/PhotoGallery/master/20190420_view_centos_bit.png" alt="image"></p>
+<p><img src="https://s1.ax1x.com/2020/06/06/t6snwq.png" alt="t6snwq.png"></p>
 <h3 id="2-传输文件及解压"><a href="#2-传输文件及解压" class="headerlink" title="2.传输文件及解压"></a>2.传输文件及解压</h3><ul>
 <li><p>2.1 在/usr/local/下建立java文件夹，使用WinSCP上传jdk至java文件夹里面</p>
 </li>
@@ -527,7 +529,7 @@
   <section class="category">
     
 <header class="pure">
-  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;所有分类</div>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Categories</div>
   
 </header>
 
@@ -561,12 +563,12 @@
   <section class="tagcloud">
     
 <header class="pure">
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Hot Tags</div>
   
 </header>
 
     <div class="content pure">
-      <a href="/tags/Spring-Boot/" style="font-size: 14px; color: #999">Spring Boot</a>
+      <a href="/tags/Spring-Boot/" style="font-size: 14px; color: #999">Spring Boot</a> <a href="/tags/http/" style="font-size: 14px; color: #999">http</a> <a href="/tags/多线程/" style="font-size: 14px; color: #999">多线程</a>
     </div>
   </section>
 
@@ -632,9 +634,9 @@
     <footer id="footer" class="clearfix">
   
   <br>
-  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+  <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
 </div>
-  <div>本站使用 <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a> 作为主题，总访问量为 <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span> 次。
+  <div>Use <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a> as theme, total visits <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span> times. 
   </div>
 </footer>
 

@@ -61,13 +61,13 @@
   					
   						<li>
 								<a id="home" class="nav flat-box" href="/">
-									<i class="fas fa-home fa-fw"></i>&nbsp;主页
+									<i class="fas fa-home fa-fw"></i>&nbsp;Home
 								</a>
 							</li>
       			
   						<li>
 								<a id="archives" class="nav flat-box" href="/archives/">
-									<i class="fas fa-archive fa-fw"></i>&nbsp;归档
+									<i class="fas fa-archive fa-fw"></i>&nbsp;Archives
 								</a>
 							</li>
       			
@@ -78,7 +78,7 @@
 			
 				<div class="m_search">
 					<form name="searchform" class="form u-search-form">
-						<input type="text" class="input u-search-input" placeholder="搜索">
+						<input type="text" class="input u-search-input" placeholder="Search">
 						<span class="icon"><i class="fas fa-search fa-fw"></i></span>
 					</form>
 				</div>
@@ -108,13 +108,13 @@
               
                   <li>
 										<a id="home" class="nav flat-box" href="/">
-											<i class="fas fa-home fa-fw"></i>&nbsp;主页
+											<i class="fas fa-home fa-fw"></i>&nbsp;Home
 										</a>
                   </li>
               
                   <li>
 										<a id="archives" class="nav flat-box" href="/archives/">
-											<i class="fas fa-archive fa-fw"></i>&nbsp;归档
+											<i class="fas fa-archive fa-fw"></i>&nbsp;Archives
 										</a>
                   </li>
               
@@ -168,7 +168,71 @@
       
         
       
+        
+      
     
+    
+      
+        <div class="post-wrapper">
+          <article class="post reveal ">
+    
+<section class="meta">
+  
+  <div class="meta" id="header-meta">
+    
+      <h2 class="title">
+          <a href="/2020/06/06/ThreadLocal应用及源码解析/">
+              
+                  ThreadLocal应用及源码解析
+              
+          </a>
+      </h2>
+    
+
+    
+      <time class="metatag time">
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2020-06-06
+      </time>
+    
+
+    
+      
+
+    
+
+    
+
+    
+
+  </div>
+</section>
+
+    <section class="article typo">
+        <blockquote>
+<p>类<code>ThreadLocal</code>提供线程本地变量。它与普通变量的区别在于，在不同的线程访问<code>ThreadLocal</code>(通过<code>get</code>或<code>set</code>方法)拥有自己的独立副本。<code>ThreadLocal</code>实例一般用<code>private static</code>修饰。</p>
+</blockquote>
+<h3 id="1-ThreadLocal用法"><a href="#1-ThreadLocal用法" class="headerlink" title="1.ThreadLocal用法"></a>1.ThreadLocal用法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// (1) 创建线程变量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;String&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// (2) 设置线程变量</span></span><br><span class="line">        threadLocal.set(<span class="string">"hello world"</span>);</span><br><span class="line">        <span class="comment">// (3) 启动子线程</span></span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="comment">// (4) 子线程输出变量的值</span></span><br><span class="line">            System.out.println(<span class="string">"thread: "</span> + threadLocal.get());</span><br><span class="line">        &#125;);</span><br><span class="line">        thread.start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// (5) 主线程输出线程变量的值</span></span><br><span class="line">        System.out.println(<span class="string">"main: "</span> + threadLocal.get());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上实例代码运行输出内容为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">main: hello world</span><br><span class="line">thread: null</span><br></pre></td></tr></table></figure>
+<p>代码(2)处设置了主线程的ThreadLocal副本值为hello world，故代码(5)输出为main: hello world;<br>代码(4)处输出子线程中ThreadLocal副本值，因为在子线程中未进行设置，故输出thread: null。</p>
+<h3 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2.源码分析"></a>2.源码分析</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">            T result = (T)e.value;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">        map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> t.threadLocals;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">createMap</span><span class="params">(Thread t, T firstValue)</span> </span>&#123;</span><br><span class="line">    t.threadLocals = <span class="keyword">new</span> ThreadLocalMap(<span class="keyword">this</span>, firstValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-set方法执行流程"><a href="#2-1-set方法执行流程" class="headerlink" title="2.1 set方法执行流程"></a>2.1 set方法执行流程</h4><p><a href="https://imgchr.com/i/tybFgA" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/06/06/tybFgA.png" alt="tybFgA.png"></a></p>
+<h4 id="2-2-get方法执行流程"><a href="#2-2-get方法执行流程" class="headerlink" title="2.2 get方法执行流程"></a>2.2 get方法执行流程</h4><p><img src="http://img3.coin163.com/75/34/6VJvaq.png" alt="image"></p>
+
+        
+
+        
+            <div class="full-width auto-padding tags">
+                
+                    <a href="/tags/多线程/"><i class="fas fa-hashtag fa-fw"></i>多线程</a>
+                
+            </div>
+        
+    </section>
+</article>
+
+        </div>
+      
     
       
         <div class="post-wrapper">
@@ -318,7 +382,7 @@
   <section class="category">
     
 <header class="pure">
-  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;所有分类</div>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Categories</div>
   
 </header>
 
@@ -352,12 +416,12 @@
   <section class="tagcloud">
     
 <header class="pure">
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Hot Tags</div>
   
 </header>
 
     <div class="content pure">
-      <a href="/tags/Spring-Boot/" style="font-size: 14px; color: #999">Spring Boot</a>
+      <a href="/tags/Spring-Boot/" style="font-size: 14px; color: #999">Spring Boot</a> <a href="/tags/http/" style="font-size: 14px; color: #999">http</a> <a href="/tags/多线程/" style="font-size: 14px; color: #999">多线程</a>
     </div>
   </section>
 
@@ -423,9 +487,9 @@
     <footer id="footer" class="clearfix">
   
   <br>
-  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+  <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
 </div>
-  <div>本站使用 <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a> 作为主题，总访问量为 <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span> 次。
+  <div>Use <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a> as theme, total visits <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span> times. 
   </div>
 </footer>
 

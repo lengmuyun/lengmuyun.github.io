@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>Category: 深入理解Java虚拟机笔记 | lengmuyun&#39;s Blog</title>
+  <title>Tag: http | lengmuyun&#39;s Blog</title>
   
   
 
@@ -130,7 +130,7 @@
         <div class='l_main'>
             
     <script>
-        window.subData= { title:'Categories : 深入理解Java虚拟机笔记'}
+        window.subData= { title:'Hot Tags : http'}
     </script>
 
 
@@ -180,9 +180,9 @@
   <div class="meta" id="header-meta">
     
       <h2 class="title">
-          <a href="/2018/07/01/Java内存区域和内存溢出异常/">
+          <a href="/2019/01/06/TCP三次握手四次挥手/">
               
-                  Java内存区域和内存溢出异常
+                  TCP三次握手四次挥手
               
           </a>
       </h2>
@@ -190,17 +190,12 @@
 
     
       <time class="metatag time">
-        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2018-07-01
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-01-06
       </time>
     
 
     
       
-    
-    <div class="metatag cats">
-        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/深入理解Java虚拟机笔记/">深入理解Java虚拟机笔记</a>
-    </div>
-
 
     
 
@@ -212,34 +207,41 @@
 </section>
 
     <section class="article typo">
-        <h3 id="2-2-运行时数据区域"><a href="#2-2-运行时数据区域" class="headerlink" title="2.2 运行时数据区域"></a>2.2 运行时数据区域</h3><blockquote>
-<p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的区域。这些区域都有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线程的启动和结束而建立和销毁。</p>
+        <h3 id="1-TCP报文首部"><a href="#1-TCP报文首部" class="headerlink" title="1.TCP报文首部"></a>1.TCP报文首部</h3><blockquote>
+<p>TCP报文首部格式如下图所示</p>
 </blockquote>
-<p><img src="http://www.2cto.com/uploadfile/Collfiles/20161103/201611030932231070.jpg" alt="image"></p>
-<h4 id="2-2-1-程序计数器"><a href="#2-2-1-程序计数器" class="headerlink" title="2.2.1 程序计数器"></a>2.2.1 程序计数器</h4><blockquote>
-<p>程序计数器(Program Counter Register)是一块较小的内存空间，它可以看做是当前线程所执行的字节码的行号指示器。</p>
-<p>在虚拟机的概念模型里(仅是概念模型，各种虚拟机的可能会通过一些更高效的方式去实现)，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
-</blockquote>
-<h4 id="2-2-2-Java虚拟机栈"><a href="#2-2-2-Java虚拟机栈" class="headerlink" title="2.2.2 Java虚拟机栈"></a>2.2.2 Java虚拟机栈</h4><blockquote>
-<p>虚拟机栈描述的是Java方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧(Stack Frame)用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
-<p>局部变量表存放了编译期可知的各种基本数据类型(boolean，byte，char，short，int，float，long，double)、对象引用(reference类型，它不等同于对象本身，可能是一条指向对象起始地址的引用指针，也可能是指向一个代表对象的句柄或其他与此对象相关的位置)和returnAddress类型(指向了一条字节码指令的地址)。</p>
-</blockquote>
-<h4 id="2-2-3-本地方法栈"><a href="#2-2-3-本地方法栈" class="headerlink" title="2.2.3 本地方法栈"></a>2.2.3 本地方法栈</h4><blockquote>
-<p>本地方法栈(Native Method Stack)与虚拟机栈所发挥的作用是非常相似的，他们之间的区别不过是虚拟机栈是为虚拟机执行Java方法(也就是字节码)服务，而本地方法栈则为虚拟机使用到的Native方法服务。</p>
-</blockquote>
-<h4 id="2-2-4-Java堆"><a href="#2-2-4-Java堆" class="headerlink" title="2.2.4 Java堆"></a>2.2.4 Java堆</h4><blockquote>
-<p>所有的对象实例以及数组都要在堆上分配，但是随着JIT编译器的发展与逃逸分析技术逐渐成熟，栈上分配、标量替换优化技术将会导致一些微妙的变化发生，所有的对象都分配在堆上也渐渐变得不是那么“绝对”了。</p>
-<p>Java堆还可以细分为：新生代和老年代；再细致一点的有：Eden空间、From Survivor空间、To Survivor空间等。</p>
-</blockquote>
-<h4 id="2-2-5-方法区"><a href="#2-2-5-方法区" class="headerlink" title="2.2.5 方法区"></a>2.2.5 方法区</h4><blockquote>
-<p>方法区(Method Area)与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。</p>
-</blockquote>
-<h4 id="2-2-6-运行时常量池"><a href="#2-2-6-运行时常量池" class="headerlink" title="2.2.6 运行时常量池"></a>2.2.6 运行时常量池</h4><blockquote>
-<p>运行时常量池(Runtime Constant Pool)是方法区的一部分。Class文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池(Constant Pool Table)，用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
-</blockquote>
+<p><img src="https://ws1.sinaimg.cn/large/83c51503ly1fyx5sxvwnlj20i80chwf1.jpg" alt="image"></p>
+<ul>
+<li>序号，占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。例如，一段报文的序号字段值是 301 ，而携带的数据共有100字段，显然下一个报文段（如果还有的话）的数据序号应该从401开始；</li>
+<li>确认号，占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。例如，B收到了A发送过来的报文，其序列号字段是501，而数据长度是200字节，这表明B正确的收到了A发送的到序号700为止的数据。因此，B期望收到A的下一个数据序号是701，于是B在发送给A的确认报文段中把确认号置为701；</li>
+<li>确认ACK，仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1；</li>
+<li>同步SYN，在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1；</li>
+<li>终止FIN，用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放；</li>
+</ul>
+<h3 id="2-TCP三次握手"><a href="#2-TCP三次握手" class="headerlink" title="2.TCP三次握手"></a>2.TCP三次握手</h3><ol>
+<li>TCP客户进程向服务器发出连接请求报文，报文首部中的同步位SYN=1，同时选择一个初始序列号 seq=x ，此时，TCP客户端进程进入了 <strong>SYN-SENT（同步已发送状态）状态</strong>。</li>
+<li>TCP服务器收到请求报文后，如果同意连接，则发出确认报文。确认报文中应该 ACK=1，SYN=1，确认号是ack=x+1，同时也要为自己初始化一个序列号 seq=y，此时，TCP服务器进程进入了 <strong>SYN-RCVD（同步收到）状态</strong>。</li>
+<li>TCP客户进程收到确认后，还要向服务器给出确认。确认报文的ACK=1，ack=y+1，自己的序列号seq=x+1，此时，TCP连接建立，客户端进入 <strong>ESTABLISHED（已建立连接）状态</strong>。当服务器收到客户端的确认后也进入 <strong>ESTABLISHED状态</strong>，此后双方就可以开始通信了。</li>
+</ol>
+<p><img src="https://ws1.sinaimg.cn/large/83c51503ly1fyx6b5ncppj20uz0en0te.jpg" alt="image"></p>
+<h3 id="3-TCP四次挥手"><a href="#3-TCP四次挥手" class="headerlink" title="3.TCP四次挥手"></a>3.TCP四次挥手</h3><ol>
+<li>客户端进程发出连接释放报文，并且停止发送数据。释放数据报文首部，FIN=1，其序列号为seq=u（等于前面已经传送过来的数据的最后一个字节的序号加1），此时，客户端进入<strong>FIN-WAIT-1（终止等待1）状态</strong>。</li>
+<li>服务器收到连接释放报文，发出确认报文，ACK=1，ack=u+1，并且带上自己的序列号seq=v，此时，服务端就进入了CLOSE-WAIT（关闭等待）状态。客户端收到服务器的确认请求后，此时，客户端就进入<strong>FIN-WAIT-2（终止等待2）状态</strong>，等待服务器发送连接释放报文</li>
+<li>服务器将最后的数据发送完毕后，就向客户端发送连接释放报文，FIN=1，ack=u+1，由于在半关闭状态，服务器很可能又发送了一些数据，假定此时的序列号为seq=w，此时，服务器就进入了<strong>LAST-ACK（最后确认）状态</strong>，等待客户端的确认。</li>
+<li>客户端收到服务器的连接释放报文后，必须发出确认，ACK=1，ack=w+1，而自己的序列号是seq=u+1，此时，客户端就进入了<strong>TIME-WAIT（时间等待）状态</strong>。注意此时TCP连接还没有释放，必须经过2∗∗MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入<strong>CLOSED</strong>状态。服务器只要收到了客户端发出的确认，立即进入<strong>CLOSED</strong>状态。</li>
+</ol>
+<p><img src="https://ws1.sinaimg.cn/large/83c51503ly1fyx71lt4esj20tm0j0my8.jpg" alt="image"></p>
+<p>参考链接:</p>
+<p><a href="https://blog.csdn.net/qzcsu/article/details/72861891" target="_blank" rel="noopener">https://blog.csdn.net/qzcsu/article/details/72861891</a></p>
 
         
 
+        
+            <div class="full-width auto-padding tags">
+                
+                    <a href="/tags/http/"><i class="fas fa-hashtag fa-fw"></i>http</a>
+                
+            </div>
         
     </section>
 </article>
