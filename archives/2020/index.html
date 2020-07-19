@@ -18,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>Archive: 2020 - lengmuyun&#39;s Blog</title>
+    <title>归档：2020 - lengmuyun&#39;s Blog</title>
   
   
 
@@ -431,9 +431,120 @@
         
           
         
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/07/19/CentOS%E5%AE%89%E8%A3%85RabbitMQ/">
+      CentOS安装RabbitMQ
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://xaoxuu.com" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
+    <p>Mr. X</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/CentOS/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>CentOS</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jul 19, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-准备"><a href="#1-准备" class="headerlink" title="1.准备"></a>1.准备</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install build-essential openssl openssl-devel unixODBC unixODBC-devel make gcc gcc-c++ kernel-devel m4 ncurses-devel tk tc xz</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-下载"><a href="#2-下载" class="headerlink" title="2.下载"></a>2.下载</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget www.rabbitmq.com/releases/erlang/erlang-18.3-1.el7.centos.x86_64.rpm </span><br><span class="line">wget http://repo.iotti.biz/CentOS/7/x86_64/socat-1.7.3.2-5.el7.lux.x86_64.rpm </span><br><span class="line">wget www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-3.6.5-1.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-配置"><a href="#3-配置" class="headerlink" title="3.配置"></a>3.配置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 修改hostname</span></span><br><span class="line">vi /etc/hostname</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改hosts(配置集群时可以配置多个节点)</span></span><br><span class="line">vi /etc/hosts</span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭防火墙</span></span><br><span class="line">systemctl stop firewalld.service</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-软件安装"><a href="#4-软件安装" class="headerlink" title="4.软件安装"></a>4.软件安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装erlang</span></span><br><span class="line">rpm -ivh erlang-18.3-1.el7.centos.x86_64.rpm</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装socat</span></span><br><span class="line">rpm -ivh socat-1.7.3.2-5.el7.lux.x86_64.rpm</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装rabbitmq</span></span><br><span class="line">rpm -ivh rabbitmq-server-3.6.5-1.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-启用guest用户"><a href="#5-启用guest用户" class="headerlink" title="5.启用guest用户"></a>5.启用guest用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 修改配置文件rabbit.app</span></span><br><span class="line">vi /usr/lib/rabbitmq/lib/rabbitmq_server-3.6.5/ebin/rabbit.app </span><br><span class="line"><span class="meta">#</span><span class="bash"> 比如修改密码、配置等等，例如：loopback_users中的&lt;&lt;”guest”&gt;&gt;， 只保留guest</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-启动服务"><a href="#6-启动服务" class="headerlink" title="6.启动服务"></a>6.启动服务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动</span></span><br><span class="line">rabbitmq-server start &amp; </span><br><span class="line"><span class="meta">#</span><span class="bash"> 停止</span></span><br><span class="line">rabbitmqctl stop_app</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="7-管理插件："><a href="#7-管理插件：" class="headerlink" title="7.管理插件："></a>7.管理插件：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看所有插件</span></span><br><span class="line">rabbitmq-plugins list</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动rabbitmq_management</span></span><br><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-访问地址"><a href="#5-访问地址" class="headerlink" title="5.访问地址"></a>5.访问地址</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 访问rabbitmq管理后台</span></span><br><span class="line">http://&#123;你的linux服务器ip&#125;:15672</span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用用户名guest，密码guest登录</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -783,7 +894,7 @@
           <li><a class="flat-box"
             title="/categories/CentOS/" href="/categories/CentOS/"
             id="categoriesCentOS"
-            ><div class='name'>CentOS</div><div class='badge'>(3)</div></a></li>
+            ><div class='name'>CentOS</div><div class='badge'>(4)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E7%AC%94%E8%AE%B0/" href="/categories/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E7%AC%94%E8%AE%B0/"
@@ -913,16 +1024,16 @@
       
     
       
-        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
 </div>
       
     
       
-        Use
+        本站使用
         <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
-        as theme, total visits
+        作为主题，总访问量为
           <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-          times
+          次
         
       
     

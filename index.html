@@ -461,9 +461,120 @@
         
           
         
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/07/19/CentOS%E5%AE%89%E8%A3%85RabbitMQ/">
+      CentOS安装RabbitMQ
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://xaoxuu.com" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
+    <p>Mr. X</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/CentOS/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>CentOS</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jul 19, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-准备"><a href="#1-准备" class="headerlink" title="1.准备"></a>1.准备</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install build-essential openssl openssl-devel unixODBC unixODBC-devel make gcc gcc-c++ kernel-devel m4 ncurses-devel tk tc xz</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-下载"><a href="#2-下载" class="headerlink" title="2.下载"></a>2.下载</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget www.rabbitmq.com/releases/erlang/erlang-18.3-1.el7.centos.x86_64.rpm </span><br><span class="line">wget http://repo.iotti.biz/CentOS/7/x86_64/socat-1.7.3.2-5.el7.lux.x86_64.rpm </span><br><span class="line">wget www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-3.6.5-1.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-配置"><a href="#3-配置" class="headerlink" title="3.配置"></a>3.配置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 修改hostname</span></span><br><span class="line">vi /etc/hostname</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改hosts(配置集群时可以配置多个节点)</span></span><br><span class="line">vi /etc/hosts</span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭防火墙</span></span><br><span class="line">systemctl stop firewalld.service</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-软件安装"><a href="#4-软件安装" class="headerlink" title="4.软件安装"></a>4.软件安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装erlang</span></span><br><span class="line">rpm -ivh erlang-18.3-1.el7.centos.x86_64.rpm</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装socat</span></span><br><span class="line">rpm -ivh socat-1.7.3.2-5.el7.lux.x86_64.rpm</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装rabbitmq</span></span><br><span class="line">rpm -ivh rabbitmq-server-3.6.5-1.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-启用guest用户"><a href="#5-启用guest用户" class="headerlink" title="5.启用guest用户"></a>5.启用guest用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 修改配置文件rabbit.app</span></span><br><span class="line">vi /usr/lib/rabbitmq/lib/rabbitmq_server-3.6.5/ebin/rabbit.app </span><br><span class="line"><span class="meta">#</span><span class="bash"> 比如修改密码、配置等等，例如：loopback_users中的&lt;&lt;”guest”&gt;&gt;， 只保留guest</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-启动服务"><a href="#6-启动服务" class="headerlink" title="6.启动服务"></a>6.启动服务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动</span></span><br><span class="line">rabbitmq-server start &amp; </span><br><span class="line"><span class="meta">#</span><span class="bash"> 停止</span></span><br><span class="line">rabbitmqctl stop_app</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="7-管理插件："><a href="#7-管理插件：" class="headerlink" title="7.管理插件："></a>7.管理插件：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看所有插件</span></span><br><span class="line">rabbitmq-plugins list</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动rabbitmq_management</span></span><br><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-访问地址"><a href="#5-访问地址" class="headerlink" title="5.访问地址"></a>5.访问地址</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 访问rabbitmq管理后台</span></span><br><span class="line">http://&#123;你的linux服务器ip&#125;:15672</span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用用户名guest，密码guest登录</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -1752,269 +1863,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/2019/03/23/MySQL%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
-      MySQL数据类型
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://xaoxuu.com" target="_blank" rel="nofollow noopener">
-    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
-    <p>Mr. X</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/MySQL%E7%AC%94%E8%AE%B0/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>MySQL笔记</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 23, 2019</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="MySQL数据类型"><a href="#MySQL数据类型" class="headerlink" title="MySQL数据类型"></a>MySQL数据类型</h3><blockquote>
-<p>MySQL中定义数据字段的类型对你数据库的优化是非常重要的。<br>MySQL支持多种类型，大致可以分为三类：数值、日期/时间和字符串(字符)类型。</p>
-</blockquote>
-<hr>
-<h4 id="1-数值类型"><a href="#1-数值类型" class="headerlink" title="1.数值类型"></a>1.数值类型</h4><blockquote>
-<p>MySQL支持所有标准SQL数值数据类型。<br>BIT数据类型保存位字段值，并且支持MyISAM、MEMORY、InnoDB和BDB表。<br>作为SQL标准的扩展，MySQL也支持整数类型TINYINT、MEDIUMINT和BIGINT。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th align="center">类型</th>
-<th align="center">大小(字节)</th>
-<th align="center">范围(有符号)</th>
-<th align="center">范围(无符号)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">TINYINT</td>
-<td align="center">1</td>
-<td align="center">(-128，127)</td>
-<td align="center">(0，255)</td>
-</tr>
-<tr>
-<td align="center">SMALLINT</td>
-<td align="center">2</td>
-<td align="center">(-32 768，32 767)</td>
-<td align="center">(0，65 535)</td>
-</tr>
-<tr>
-<td align="center">MEDIUMINT</td>
-<td align="center">3</td>
-<td align="center">(-2^23，2^23-1)</td>
-<td align="center">(0，2^24-1)</td>
-</tr>
-<tr>
-<td align="center">INT</td>
-<td align="center">4</td>
-<td align="center">(-2^31，2^31-1)</td>
-<td align="center">(0，2^32-1)</td>
-</tr>
-<tr>
-<td align="center">BIGINT</td>
-<td align="center">8</td>
-<td align="center">(-2^63，2^63-1)</td>
-<td align="center">(0，2^64-1)</td>
-</tr>
-<tr>
-<td align="center">FLOAT[(M,D)]</td>
-<td align="center">4</td>
-<td align="center">M是数字总位数，D是小数点后面的位数。</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">DOUBLE[(M,D)]</td>
-<td align="center">8</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-<h4 id="2-日期和时间类型"><a href="#2-日期和时间类型" class="headerlink" title="2.日期和时间类型"></a>2.日期和时间类型</h4><blockquote>
-<p>表示时间值的日期和时间类型为DATETIME、DATE、TIMESTAMP、TIME和YEAR。<br>每个时间类型有一个有效值范围和一个”零”值，当指定不合法的MySQL不能表示的值时使用”零”值。<br>TIMESTAMP类型有专有的自动更新特性，将在后面描述。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th align="center">类型</th>
-<th align="center">大小(字节)</th>
-<th align="center">范围</th>
-<th align="center">格式</th>
-<th align="center">用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">DATE</td>
-<td align="center">3</td>
-<td align="center">1000-01-01/9999-12-31</td>
-<td align="center">YYYY-MM-DD</td>
-<td align="center">日期值</td>
-</tr>
-<tr>
-<td align="center">TIME</td>
-<td align="center">3</td>
-<td align="center">‘-838:59:59’/‘838:59:59’</td>
-<td align="center">HH:MM:SS</td>
-<td align="center">时间值或持续时间</td>
-</tr>
-<tr>
-<td align="center">YEAR</td>
-<td align="center">1</td>
-<td align="center">1901/2155</td>
-<td align="center">YYYY</td>
-<td align="center">年份值</td>
-</tr>
-<tr>
-<td align="center">DATETIME</td>
-<td align="center">8</td>
-<td align="center">1000-01-01 00:00:00/9999-12-31 23:59:59</td>
-<td align="center">YYYY-MM-DD HH:MM:SS</td>
-<td align="center">混合日期和时间值</td>
-</tr>
-<tr>
-<td align="center">TIMESTAMP</td>
-<td align="center">4</td>
-<td align="center">1970-01-01 00:00:00/2038</td>
-<td align="center">结束时间是第 2147483647 秒，北京时间 2038-1-19 11:14:07，格林尼治时间 2038年1月19日 凌晨 03:14:07</td>
-<td align="center">YYYYMMDD HHMMSS</td>
-</tr>
-</tbody></table>
-<h4 id="3-字符串类型"><a href="#3-字符串类型" class="headerlink" title="3.字符串类型"></a>3.字符串类型</h4><blockquote>
-<p>字符串类型指CHAR、VARCHAR、BINARY、VARBINARY、BLOB、TEXT、ENUM和SET。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th align="center">类型</th>
-<th align="center">大小(字节)</th>
-<th align="center">用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">CHAR</td>
-<td align="center">0-255</td>
-<td align="center">定长字符串</td>
-</tr>
-<tr>
-<td align="center">VARCHAR</td>
-<td align="center">0-65535</td>
-<td align="center">变长字符串</td>
-</tr>
-<tr>
-<td align="center">TINYBLOB</td>
-<td align="center">0-255</td>
-<td align="center">不超过 255 个字符的二进制字符串</td>
-</tr>
-<tr>
-<td align="center">TINYTEXT</td>
-<td align="center">0-255</td>
-<td align="center">短文本字符串</td>
-</tr>
-<tr>
-<td align="center">BLOB</td>
-<td align="center">0-65 535</td>
-<td align="center">二进制形式的长文本数据</td>
-</tr>
-<tr>
-<td align="center">TEXT</td>
-<td align="center">0-65 535</td>
-<td align="center">长文本数据</td>
-</tr>
-<tr>
-<td align="center">MEDIUMBLOB</td>
-<td align="center">0-16 777 215</td>
-<td align="center">二进制形式的中等长度文本数据</td>
-</tr>
-<tr>
-<td align="center">MEDIUMTEXT</td>
-<td align="center">0-16 777 215</td>
-<td align="center">中等长度文本数据</td>
-</tr>
-<tr>
-<td align="center">LONGBLOB</td>
-<td align="center">0-4 294 967 295</td>
-<td align="center">二进制形式的极大文本数据</td>
-</tr>
-<tr>
-<td align="center">LONGTEXT</td>
-<td align="center">0-4 294 967 295</td>
-<td align="center">极大文本数据</td>
-</tr>
-</tbody></table>
-
-      
-    </div>
-    
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -2028,7 +1876,7 @@
         
           <a class="next" rel="next" href="/page/2/">
             <section class="post next white-box shadow">
-              &nbsp;Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
+              &nbsp;下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
             </section>
           </a>
         
@@ -2129,7 +1977,7 @@
           <li><a class="flat-box"
             title="/categories/CentOS/" href="/categories/CentOS/"
             id="categoriesCentOS"
-            ><div class='name'>CentOS</div><div class='badge'>(3)</div></a></li>
+            ><div class='name'>CentOS</div><div class='badge'>(4)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E7%AC%94%E8%AE%B0/" href="/categories/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E7%AC%94%E8%AE%B0/"
@@ -2259,16 +2107,16 @@
       
     
       
-        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
 </div>
       
     
       
-        Use
+        本站使用
         <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
-        as theme, total visits
+        作为主题，总访问量为
           <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-          times
+          次
         
       
     
